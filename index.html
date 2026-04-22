@@ -7,8 +7,8 @@
   <style>
     :root {
       --line: #222;
-      --screen-bg: #eef1f4;
-      --panel-bg: #ffffff;
+      --bg: #eef1f4;
+      --panel: #ffffff;
       --brand: #c2187a;
     }
 
@@ -17,105 +17,83 @@
     html, body {
       margin: 0;
       padding: 0;
-      font-family: "Noto Sans KR", sans-serif;
+      background: var(--bg);
       color: #111;
-      background: var(--screen-bg);
+      font-family: "Noto Sans KR", sans-serif;
     }
 
-    body { min-width: 1320px; }
+    body { min-width: 1280px; }
 
     .app {
-      max-width: 1700px;
+      max-width: 1680px;
       margin: 0 auto;
       padding: 18px;
-      display: grid;
-      grid-template-columns: 360px 1fr;
-      gap: 18px;
-      align-items: start;
     }
 
-    .panel {
-      background: var(--panel-bg);
+    .topbar {
+      background: var(--panel);
       border: 1px solid #d7dde3;
       border-radius: 18px;
-      padding: 16px;
+      padding: 14px 16px;
       box-shadow: 0 10px 28px rgba(0,0,0,0.06);
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 16px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
     }
 
-    h1 {
-      margin: 0 0 8px;
-      font-size: 24px;
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: end;
     }
 
-    .muted {
-      color: #666;
-      font-size: 13px;
-      line-height: 1.55;
+    .toolbar-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
-    code {
-      font-family: "Noto Sans KR", sans-serif;
-      background: #f5f6f7;
-      padding: 1px 4px;
-      border-radius: 4px;
-    }
-
-    .field { margin-top: 12px; }
-
-    .field label {
-      display: block;
-      margin-bottom: 6px;
-      font-size: 13px;
+    .toolbar-group label {
+      font-size: 12px;
       font-weight: 700;
+      color: #555;
     }
 
-    .field textarea,
-    .field select {
-      width: 100%;
-      font: inherit;
-      background: #fff;
-      border: 1px solid #b8c0c8;
-      border-radius: 10px;
+    .toolbar select,
+    .toolbar input[type="checkbox"] {
+      font-family: "Noto Sans KR", sans-serif;
     }
 
-    .field textarea {
-      min-height: 130px;
-      resize: vertical;
-      line-height: 1.45;
-      padding: 10px 12px;
-    }
-
-    .field select {
-      height: 40px;
+    .toolbar select {
+      min-width: 92px;
+      height: 38px;
       padding: 0 10px;
+      border: 1px solid #b7bec6;
+      border-radius: 10px;
+      background: #fff;
       font-size: 14px;
       font-weight: 700;
     }
 
-    .field-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 12px;
-    }
-
-    .field-row .field { margin-top: 0; }
-
-    .checkbox-wrap {
+    .toolbar-check {
       display: flex;
       align-items: center;
       gap: 8px;
-      min-height: 40px;
+      height: 38px;
       padding: 0 4px;
       font-size: 14px;
       font-weight: 700;
     }
 
-    .actions {
+    .toolbar-actions {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
-      margin-top: 14px;
+      align-items: center;
     }
 
     button {
@@ -131,70 +109,18 @@
 
     button.secondary { background: #666; }
 
-    .status-box {
-      margin-top: 12px;
-      padding: 12px 13px;
-      border-radius: 12px;
-      background: #f6f7f8;
-      font-size: 12px;
-      color: #555;
-      line-height: 1.6;
-    }
-
-    .preview-controls {
-      display: flex;
-      justify-content: space-between;
-      align-items: end;
-      gap: 12px;
-      margin-bottom: 14px;
-      padding-bottom: 12px;
-      border-bottom: 1px solid #d8dde2;
-      flex-wrap: wrap;
-    }
-
-    .preview-controls .toolbar {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items: end;
-    }
-
-    .preview-controls .toolbar-group {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
-
-    .preview-controls .toolbar-group label {
-      font-size: 11px;
-      color: #555;
-      font-weight: 700;
-    }
-
-    .preview-controls select {
-      min-width: 88px;
-      height: 36px;
-      padding: 0 10px;
-      border: 1px solid #aab1b9;
-      border-radius: 9px;
-      background: #fff;
-      font: inherit;
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .preview-meta {
-      text-align: right;
+    .status {
       font-size: 12px;
       color: #666;
-      line-height: 1.35;
+      text-align: right;
+      line-height: 1.5;
       white-space: nowrap;
     }
 
     .preview-wrap {
       overflow: auto;
-      padding: 2px 0 10px;
-      max-height: calc(100vh - 40px);
+      max-height: calc(100vh - 48px);
+      padding-bottom: 8px;
     }
 
     .pages {
@@ -381,7 +307,6 @@
     }
 
     .center { text-align: center; }
-    .right { text-align: right; }
 
     .meta-line {
       height: 5.5mm;
@@ -428,8 +353,8 @@
     .main-table table { height: 100%; }
 
     .main-table col.num { width: 8mm; }
-    .main-table col.prompt { width: 84mm; }
-    .main-table col.answer { width: 33mm; }
+    .main-table col.prompt { width: 95mm; }
+    .main-table col.answer { width: 22mm; }
     .main-table col.code { width: 11.5mm; }
 
     .main-table td,
@@ -455,11 +380,16 @@
       text-overflow: ellipsis;
     }
 
+    .main-table td.answer-cell.question {
+      color: transparent;
+    }
+
     .main-table td.code {
       text-align: right;
       font-size: 2.9mm;
       font-weight: 700;
       padding-right: 1mm;
+      border-left: 0;
     }
 
     .main-table tr { height: 6.5mm; }
@@ -513,17 +443,8 @@
         margin: 0;
       }
 
-      .panel.controls-panel,
-      .preview-controls {
+      .topbar {
         display: none !important;
-      }
-
-      .panel.preview-panel {
-        border: 0;
-        border-radius: 0;
-        padding: 0;
-        box-shadow: none;
-        background: #fff;
       }
 
       .preview-wrap {
@@ -574,140 +495,101 @@
 </head>
 <body>
   <div class="app">
-    <div class="panel controls-panel">
-      <h1>단어 시험지 인쇄용</h1>
-      <div class="muted">
-        A4 가로 한 장에 A5 세로 시험지 2장이 들어가는 구조입니다.<br>
-        로고는 같은 폴더의 <code>logo.png</code>를 자동으로 불러옵니다.<br>
-        폰트는 전체를 <code>Noto Sans KR</code>만 사용하도록 맞췄습니다.
-      </div>
-
-      <div class="field-row">
-        <div class="field">
-          <label for="studentCount">문제지 수</label>
-          <select id="studentCount"></select>
+    <div class="topbar">
+      <div class="toolbar">
+        <div class="toolbar-group">
+          <label for="termSelect">학기명</label>
+          <select id="termSelect">
+            <option value="2026 Spring" selected>2026 Spring</option>
+          </select>
         </div>
-        <div class="field">
-          <label>답지 포함</label>
-          <div class="checkbox-wrap">
+        <div class="toolbar-group">
+          <label for="classSelect">반</label>
+          <select id="classSelect"></select>
+        </div>
+        <div class="toolbar-group">
+          <label for="roundSelect">회차</label>
+          <select id="roundSelect"></select>
+        </div>
+        <div class="toolbar-group">
+          <label for="copyCount">문제지 수</label>
+          <select id="copyCount">
+            <option value="1">1매</option>
+            <option value="2">2매</option>
+            <option value="3">3매</option>
+            <option value="4">4매</option>
+            <option value="5">5매</option>
+            <option value="6" selected>6매</option>
+            <option value="7">7매</option>
+            <option value="8">8매</option>
+            <option value="9">9매</option>
+            <option value="10">10매</option>
+            <option value="11">11매</option>
+            <option value="12">12매</option>
+          </select>
+        </div>
+        <div class="toolbar-group">
+          <label>답지</label>
+          <div class="toolbar-check">
             <input type="checkbox" id="includeAnswer" checked />
-            <span>마지막 칸에 답지 넣기</span>
+            <span>포함</span>
           </div>
         </div>
       </div>
 
-      <div class="field">
-        <label for="vocabData">단어 데이터 (탭 구분: Day / 단어 / 뜻 / 구분 / 단어장 / 번호)</label>
-        <textarea id="vocabData">Day 1	concentrate	집중하다	표제어	Voca Planner 중등 심화	0006
-Day 1	assignment	과제	표제어	Voca Planner 중등 심화	0007
-Day 1	submit	제출하다	표제어	Voca Planner 중등 심화	0008
-Day 1	term	용어, 학기	표제어	Voca Planner 중등 심화	0009
-Day 1	attend	참석하다, (~에) 다니다	표제어	Voca Planner 중등 심화	0010
-Day 1	absence	결석, 결근	표제어	Voca Planner 중등 심화	0011
-Day 1	principal	교장; 주요한, 주된	표제어	Voca Planner 중등 심화	0012
-Day 1	pupil	학생	표제어	Voca Planner 중등 심화	0013
-Day 1	influence	영향을 주다[미치다]; 영향	표제어	Voca Planner 중등 심화	0014
-Day 1	scholarship	장학금	표제어	Voca Planner 중등 심화	0015
-Day 1	graduate	졸업하다; 졸업생	표제어	Voca Planner 중등 심화	0016
-Day 1	auditorium	강당	표제어	Voca Planner 중등 심화	0017
-Day 1	cafeteria	구내식당	표제어	Voca Planner 중등 심화	0018
-Day 1	gym	체육관	표제어	Voca Planner 중등 심화	0019
-Day 1	dormitory	기숙사	표제어	Voca Planner 중등 심화	0020
-Day 2	workplace	직장	표제어	Voca Planner 중등 심화	0021
-Day 2	salary	급여	표제어	Voca Planner 중등 심화	0022
-Day 2	commute	통근하다	표제어	Voca Planner 중등 심화	0023
-Day 2	overtime	초과근무	표제어	Voca Planner 중등 심화	0024
-Day 2	resign	사임하다, 그만두다	표제어	Voca Planner 중등 심화	0025
-Day 31	universe	우주	표제어	Voca Planner 중등 심화	0601
-Day 31	galaxy	은하계	표제어	Voca Planner 중등 심화	0602
-Day 31	process	과정; 처리하다	표제어	Voca Planner 중등 심화	0603
-Day 31	footprint	발자국	표제어	Voca Planner 중등 심화	0604
-Day 31	artificial	인공의	표제어	Voca Planner 중등 심화	0605
-Day 31	explore	탐사[탐험]하다	표제어	Voca Planner 중등 심화	0606
-Day 31	gravity	중력	표제어	Voca Planner 중등 심화	0607
-Day 31	lunar	달의	표제어	Voca Planner 중등 심화	0608
-Day 31	solar system	태양계	표제어	Voca Planner 중등 심화	0609
-Day 32	progress	진전; 진전을 보이다	표제어	Voca Planner 중등 심화	0610
-Day 32	virtual	가상의	표제어	Voca Planner 중등 심화	0611
-Day 32	advance	발전; 진보하다, 증진되다	표제어	Voca Planner 중등 심화	0612
-Day 32	technician	기술자	표제어	Voca Planner 중등 심화	0613
-Day 32	research	연구; 조사하다	표제어	Voca Planner 중등 심화	0614
-Day 32	satellite	위성	표제어	Voca Planner 중등 심화	0615
-Day 32	database	데이터베이스	표제어	Voca Planner 중등 심화	0616
-Day 32	astronomer	천문학자	표제어	Voca Planner 중등 심화	0617
-Day 32	convenient	편리한	표제어	Voca Planner 중등 심화	0618
-Day 32	precise	정확한, 정밀한	표제어	Voca Planner 중등 심화	0619
-Day 32	improve	개선되다, 향상시키다	표제어	Voca Planner 중등 심화	0620</textarea>
-      </div>
-
-      <div class="field">
-        <label for="scheduleData">시험 일정 데이터 (탭 구분: 반 / 회차 / 시험일표시 / Day표시 / 단어장)</label>
-        <textarea id="scheduleData">X2 2D	13	4/21(화)	Day 31, 32	Voca Planner 중등 심화
-X2 2D	14	4/28(화)	Day 1, 2	Voca Planner 중등 심화
-X2 2A	13	4/21(화)	Day 31, 32	Voca Planner 중등 심화
-X2 2A	14	4/28(화)	Day 1, 2	Voca Planner 중등 심화</textarea>
-      </div>
-
-      <div class="field">
-        <label for="irregularData">불규칙동사 데이터 (탭 구분: 차수 / 기본형 / 과거형 / p.p. / 뜻)</label>
-        <textarea id="irregularData">13	let	let	let	허락하다
-13	become	became	become	-가 되다
-13	fry	fried	fried	튀기다
-13	steal	stole	stolen	훔치다
-13	light	lit	lit	불을 붙이다
-13	get	got	got/gotten	얻다, 받다
-13	know	knew	known	알다
-13	found	founded	founded	설립하다
-13	mean	meant	meant	의미하다
-14	regret	regretted	regretted	후회하다
-14	speak	spoke	spoken	말하다(1)
-14	shed	shed	shed	(피, 눈물) 흘리다
-14	fly	flew	flown	날다
-14	offer	offered	offered	제공하다
-14	weave	wove	woven	짜다, 엮다</textarea>
-      </div>
-
-      <div class="status-box">
-        필요한 텍스트 파일 예시는 아래 형식이면 됩니다.<br><br>
-        <strong>vocab-data.txt</strong><br>
-        Day 31	universe	우주	표제어	Voca Planner 중등 심화	0601<br>
-        Day 31	galaxy	은하계	표제어	Voca Planner 중등 심화	0602<br><br>
-        <strong>schedule-data.txt</strong><br>
-        X2 2D	13	4/21(화)	Day 31, 32	Voca Planner 중등 심화<br>
-        X2 2D	14	4/28(화)	Day 1, 2	Voca Planner 중등 심화<br><br>
-        <strong>irregular-data.txt</strong><br>
-        13	let	let	let	허락하다<br>
-        13	become	became	become	-가 되다
-      </div>
-
-      <div class="actions">
+      <div class="toolbar-actions">
         <button id="shuffleBtn">랜덤 재생성</button>
         <button id="printBtn" class="secondary">인쇄</button>
+        <div class="status" id="statusText"></div>
       </div>
-
-      <div class="status-box" id="statusBox"></div>
     </div>
 
-    <div class="panel preview-panel">
-      <div class="preview-controls">
-        <div class="toolbar" id="previewToolbar"></div>
-        <div class="preview-meta" id="previewMeta"></div>
-      </div>
-      <div class="preview-wrap">
-        <div class="pages" id="pages"></div>
-      </div>
+    <div class="preview-wrap">
+      <div class="pages" id="pages"></div>
     </div>
   </div>
 
   <script>
-    function fillStudentCount() {
-      const select = document.getElementById('studentCount');
-      let html = '';
-      for (let i = 1; i <= 12; i += 1) {
-        html += `<option value="${i}">${i}매</option>`;
+    let vocabRows = [];
+    let scheduleRows = [];
+    let irregularRows = [];
+    let cachedQuestionSet = null;
+    let cachedIrregularSet = null;
+    let lastSelectedClass = '';
+    let lastSelectedRound = '';
+
+    function escapeHtml(text) {
+      return String(text ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
       }
-      select.innerHTML = html;
-      select.value = '6';
+      return arr;
+    }
+
+    function shortMeaning(text) {
+      return String(text)
+        .split(/\s*[;,]\s*/)
+        .map(x => x.trim())
+        .filter(Boolean)
+        .slice(0, 3)
+        .join(', ');
+    }
+
+    function parseDayList(dayLabel) {
+      return String(dayLabel)
+        .split(',')
+        .map(x => x.trim())
+        .filter(Boolean);
     }
 
     function parseVocabTSV(text) {
@@ -749,13 +631,11 @@ X2 2A	14	4/28(화)	Day 1, 2	Voca Planner 중등 심화</textarea>
 
     function parseIrregularTSV(text) {
       return text
-        .split(/
-?
-/)
+        .split(/\r?\n/)
         .map(line => line.trim())
         .filter(Boolean)
         .map(line => {
-          const cols = line.split('	');
+          const cols = line.split('\t');
           return {
             round: cols[0] || '',
             base: cols[1] || '',
@@ -764,41 +644,27 @@ X2 2A	14	4/28(화)	Day 1, 2	Voca Planner 중등 심화</textarea>
             meaning: cols[4] || ''
           };
         })
-        .filter(row => row.round && row.base && row.meaning && row.past && row.pp);
+        .filter(row => row.round && row.base && row.past && row.pp && row.meaning);
     }
 
-    function escapeHtml(text) {
-      return String(text ?? '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-    }
-
-    function shuffle(array) {
-      const arr = [...array];
-      for (let i = arr.length - 1; i > 0; i -= 1) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [arr[i], arr[j]] = [arr[j], arr[i]];
+    async function loadTextFile(path) {
+      const response = await fetch(path, { cache: 'no-store' });
+      if (!response.ok) {
+        throw new Error(`${path} 로드 실패`);
       }
-      return arr;
+      return response.text();
     }
 
-    function shortMeaning(text) {
-      return String(text)
-        .split(/\s*[;,]\s*/)
-        .map(x => x.trim())
-        .filter(Boolean)
-        .slice(0, 3)
-        .join(', ');
-    }
+    async function loadAllData() {
+      const [vocabText, scheduleText, irregularText] = await Promise.all([
+        loadTextFile('./vocab-data.txt'),
+        loadTextFile('./schedule-data.txt'),
+        loadTextFile('./irregular-data.txt')
+      ]);
 
-    function parseDayList(dayLabel) {
-      return String(dayLabel)
-        .split(',')
-        .map(x => x.trim())
-        .filter(Boolean);
+      vocabRows = parseVocabTSV(vocabText);
+      scheduleRows = parseScheduleTSV(scheduleText);
+      irregularRows = parseIrregularTSV(irregularText);
     }
 
     function dedupeWords(rows) {
@@ -820,8 +686,8 @@ X2 2A	14	4/28(화)	Day 1, 2	Voca Planner 중등 심화</textarea>
       });
     }
 
-    function buildQuestionSet(vocabRows) {
-      const unique = shuffle(dedupeWords(vocabRows));
+    function buildQuestionSet(rows) {
+      const unique = shuffle(dedupeWords(rows));
       const english = unique.slice(0, 17);
       const korean = unique.slice(17, 20);
       return {
@@ -832,35 +698,38 @@ X2 2A	14	4/28(화)	Day 1, 2	Voca Planner 중등 심화</textarea>
     }
 
     function buildIrregularSet(rows, roundLabel) {
-      const target = String(roundLabel || '').trim();
-      const filtered = rows.filter(row => String(row.round).trim() === target);
+      const filtered = rows.filter(row => String(row.round).trim() === String(roundLabel).trim());
       return shuffle(filtered).slice(0, 5);
     }
 
-    function renderPreviewToolbar(scheduleRows, termValue, selectedClass, selectedRound) {
-      const classOptions = [...new Set(scheduleRows.map(row => row.className))]
-        .map(name => `<option value="${escapeHtml(name)}" ${name === selectedClass ? 'selected' : ''}>${escapeHtml(name)}</option>`)
-        .join('');
+    function populateClassSelect() {
+      const classSelect = document.getElementById('classSelect');
+      const classes = [...new Set(scheduleRows.map(row => row.className))];
+      classSelect.innerHTML = classes.map(name => `<option value="${escapeHtml(name)}">${escapeHtml(name)}</option>`).join('');
+      if (classes.includes(lastSelectedClass)) {
+        classSelect.value = lastSelectedClass;
+      } else if (classes.length) {
+        classSelect.value = classes[0];
+      }
+    }
 
-      const roundOptions = scheduleRows
+    function populateRoundSelect(selectedClass) {
+      const roundSelect = document.getElementById('roundSelect');
+      const rounds = scheduleRows
         .filter(row => row.className === selectedClass)
-        .map(row => `<option value="${escapeHtml(row.roundLabel)}" ${row.roundLabel === selectedRound ? 'selected' : ''}>${escapeHtml(row.roundLabel)}</option>`)
-        .join('');
+        .map(row => row.roundLabel);
+      roundSelect.innerHTML = rounds.map(round => `<option value="${escapeHtml(round)}">${escapeHtml(round)}</option>`).join('');
+      if (rounds.includes(lastSelectedRound)) {
+        roundSelect.value = lastSelectedRound;
+      } else if (rounds.length) {
+        roundSelect.value = rounds[0];
+      }
+    }
 
-      return `
-        <div class="toolbar-group">
-          <label for="termSelect">학기명</label>
-          <select id="termSelect"><option value="${escapeHtml(termValue)}" selected>${escapeHtml(termValue)}</option></select>
-        </div>
-        <div class="toolbar-group">
-          <label for="classSelect">반</label>
-          <select id="classSelect">${classOptions}</select>
-        </div>
-        <div class="toolbar-group">
-          <label for="roundSelect">회차</label>
-          <select id="roundSelect">${roundOptions}</select>
-        </div>
-      `;
+    function getSelectedSchedule() {
+      const className = document.getElementById('classSelect').value;
+      const roundLabel = document.getElementById('roundSelect').value;
+      return scheduleRows.find(row => row.className === className && row.roundLabel === roundLabel) || null;
     }
 
     function renderHeader(meta, answerMode) {
@@ -906,7 +775,7 @@ X2 2A	14	4/28(화)	Day 1, 2	Voca Planner 중등 심화</textarea>
           <tr>
             <td class="num">${idx + 1}</td>
             <td class="prompt">${escapeHtml(prompt)}</td>
-            <td class="answer-cell">${answerMode ? escapeHtml(answer) : ''}</td>
+            <td class="answer-cell ${answerMode ? 'answer' : 'question'}">${answerMode ? escapeHtml(answer) : ''}</td>
             <td class="code">${escapeHtml(item.code)}</td>
           </tr>
         `;
@@ -925,8 +794,8 @@ X2 2A	14	4/28(화)	Day 1, 2	Voca Planner 중등 심화</textarea>
       `;
     }
 
-    function renderIrregularTable(irregularRows, answerMode) {
-      const body = irregularRows.map((item, idx) => `
+    function renderIrregularTable(rows, answerMode) {
+      const body = rows.map((item, idx) => `
         <tr>
           <td class="num">${21 + idx}</td>
           <td>${escapeHtml(item.meaning)}</td>
@@ -950,7 +819,7 @@ X2 2A	14	4/28(화)	Day 1, 2	Voca Planner 중등 심화</textarea>
       `;
     }
 
-    function renderTicket(meta, questionSet, irregularRows, answerMode) {
+    function renderTicket(meta, questionSet, irregularSet, answerMode) {
       return `
         <div class="ticket ${answerMode === null ? 'blank' : ''}">
           ${answerMode === null ? '<div class="blank-fill"></div>' : `
@@ -958,7 +827,7 @@ X2 2A	14	4/28(화)	Day 1, 2	Voca Planner 중등 심화</textarea>
             ${answerMode ? '<div class="answer-notice"><table><tbody><tr><td>불규칙은 전부 다 써야<br>정답처리해주세요</td></tr></tbody></table></div>' : ''}
             <div class="main-table">${renderMainTable(questionSet, answerMode)}</div>
             <div class="section-label">&lt;동사 3단 변화&gt;</div>
-            <div class="irregular-table">${renderIrregularTable(irregularRows, answerMode)}</div>
+            <div class="irregular-table">${renderIrregularTable(irregularSet, answerMode)}</div>
           `}
         </div>
       `;
@@ -977,66 +846,55 @@ X2 2A	14	4/28(화)	Day 1, 2	Voca Planner 중등 심화</textarea>
       return out;
     }
 
-    function getSelectedSchedule(scheduleRows, selectedClass, selectedRound) {
-      return scheduleRows.find(row => row.className === selectedClass && row.roundLabel === selectedRound) || scheduleRows[0] || {
-        className: '', roundLabel: '', testDate: '', dayLabel: '', bookName: ''
-      };
+    function updateStatus(schedule, questionSet, irregularSet, pagesData) {
+      const copyCount = Number(document.getElementById('copyCount').value || 1);
+      const includeAnswer = document.getElementById('includeAnswer').checked;
+      const totalSlots = buildSlots(copyCount, includeAnswer);
+      const answerCount = includeAnswer ? 1 : 0;
+      document.getElementById('statusText').innerHTML = `${escapeHtml(schedule.bookName)}<br>${questionSet.total}단어 · 불규칙 ${irregularSet.length}개 · ${pagesData.length}장`;
     }
-
-    function bindToolbarEvents() {
-      const classSelect = document.getElementById('classSelect');
-      const roundSelect = document.getElementById('roundSelect');
-      if (classSelect) {
-        classSelect.addEventListener('change', () => generate({ selectedClass: classSelect.value, selectedRound: null, reshuffle: false }));
-      }
-      if (roundSelect) {
-        roundSelect.addEventListener('change', () => generate({ selectedClass: classSelect.value, selectedRound: roundSelect.value, reshuffle: false }));
-      }
-    }
-
-    let lastSelectedClass = '';
-    let lastSelectedRound = '';
-    let cachedQuestionSet = null;
-    let cachedIrregularSet = null;
 
     function generate(options = {}) {
-      const reshuffle = Boolean(options.reshuffle);
-      const termValue = '2026 Spring';
-      const copyCount = Number(document.getElementById('studentCount').value || 1);
-      const includeAnswer = document.getElementById('includeAnswer').checked;
-      const vocabRows = parseVocabTSV(document.getElementById('vocabData').value);
-      const scheduleRows = parseScheduleTSV(document.getElementById('scheduleData').value);
-      const irregularRows = parseIrregularTSV(document.getElementById('irregularData').value);
+      if (!scheduleRows.length) return;
 
-      const selectedClass = options.selectedClass || lastSelectedClass || (scheduleRows[0] ? scheduleRows[0].className : '');
-      const classRows = scheduleRows.filter(row => row.className === selectedClass);
-      const selectedRound = options.selectedRound || lastSelectedRound || (classRows[0] ? classRows[0].roundLabel : '');
-      const schedule = getSelectedSchedule(scheduleRows, selectedClass, selectedRound);
+      if (options.resetClass) {
+        lastSelectedClass = '';
+        lastSelectedRound = '';
+      }
+
+      populateClassSelect();
+      populateRoundSelect(document.getElementById('classSelect').value);
+
+      const schedule = getSelectedSchedule();
+      if (!schedule) return;
 
       lastSelectedClass = schedule.className;
       lastSelectedRound = schedule.roundLabel;
 
       const filteredVocab = getFilteredVocab(vocabRows, schedule);
-      if (!cachedQuestionSet || reshuffle || options.selectedClass || options.selectedRound || options.forceRebuild) {
+      if (!cachedQuestionSet || options.reshuffle || options.forceRebuild || options.classChanged || options.roundChanged) {
         cachedQuestionSet = buildQuestionSet(filteredVocab);
       }
-      if (!cachedIrregularSet || reshuffle || options.forceRebuild || options.selectedRound || options.selectedClass) {
+      if (!cachedIrregularSet || options.reshuffle || options.forceRebuild || options.roundChanged) {
         cachedIrregularSet = buildIrregularSet(irregularRows, schedule.roundLabel);
       }
 
       const questionSet = cachedQuestionSet;
       const irregularSet = cachedIrregularSet;
       const meta = {
-        term: termValue,
+        term: document.getElementById('termSelect').value,
         className: schedule.className,
         roundLabel: schedule.roundLabel,
         testDate: schedule.testDate,
         dayLabel: schedule.dayLabel
       };
 
+      const copyCount = Number(document.getElementById('copyCount').value || 1);
+      const includeAnswer = document.getElementById('includeAnswer').checked;
       const slots = buildSlots(copyCount, includeAnswer);
       const pagesData = chunk(slots, 2);
-      const pagesHtml = pagesData.map((pair) => {
+
+      const html = pagesData.map(pair => {
         const leftType = pair[0] || 'blank';
         const rightType = pair[1] || 'blank';
         return `
@@ -1049,31 +907,41 @@ X2 2A	14	4/28(화)	Day 1, 2	Voca Planner 중등 심화</textarea>
         `;
       }).join('');
 
-      document.getElementById('previewToolbar').innerHTML = renderPreviewToolbar(scheduleRows, termValue, schedule.className, schedule.roundLabel);
-      document.getElementById('previewMeta').innerHTML = `${escapeHtml(schedule.bookName || '')}<br>${escapeHtml(schedule.testDate || '')} · ${escapeHtml(schedule.dayLabel || '')}`;
-      document.getElementById('pages').innerHTML = pagesHtml;
-      bindToolbarEvents();
-
-      const questionCopies = slots.filter(x => x === 'question').length;
-      const answerCopies = slots.filter(x => x === 'answer').length;
-      const blankSlots = slots.filter(x => x === 'blank').length;
-      document.getElementById('statusBox').innerHTML = `선택된 반/회차 단어 수: <strong>${questionSet.total}</strong>개<br>출제 구성: <strong>영어단어 쓰기 17문제 + 한국어 쓰기 3문제 + 해당 차수 불규칙 5문제</strong><br>불규칙 차수 기준: <strong>${escapeHtml(schedule.roundLabel)}</strong>차<br>생성된 문제지: <strong>${questionCopies}</strong>매 / 답지: <strong>${answerCopies}</strong>매 / 빈 칸: <strong>${blankSlots}</strong>칸<br>총 A4 페이지 수: <strong>${pagesData.length}</strong>장`;
+      document.getElementById('pages').innerHTML = html;
+      updateStatus(schedule, questionSet, irregularSet, pagesData);
     }
 
-    fillStudentCount();
-    generate({ forceRebuild: true });
+    function bindEvents() {
+      document.getElementById('classSelect').addEventListener('change', () => {
+        lastSelectedClass = document.getElementById('classSelect').value;
+        lastSelectedRound = '';
+        generate({ classChanged: true, roundChanged: true });
+      });
 
-    document.getElementById('shuffleBtn').addEventListener('click', () => generate({ reshuffle: true, forceRebuild: true }));
-    document.getElementById('printBtn').addEventListener('click', () => window.print());
-    document.getElementById('studentCount').addEventListener('change', () => generate({ forceRebuild: false }));
-    document.getElementById('includeAnswer').addEventListener('change', () => generate({ forceRebuild: false }));
-    document.getElementById('vocabData').addEventListener('input', () => generate({ forceRebuild: true }));
-    document.getElementById('scheduleData').addEventListener('input', () => {
-      lastSelectedClass = '';
-      lastSelectedRound = '';
-      generate({ forceRebuild: true });
-    });
-    document.getElementById('irregularData').addEventListener('input', () => generate({ forceRebuild: true }));
+      document.getElementById('roundSelect').addEventListener('change', () => {
+        lastSelectedRound = document.getElementById('roundSelect').value;
+        generate({ roundChanged: true });
+      });
+
+      document.getElementById('copyCount').addEventListener('change', () => generate());
+      document.getElementById('includeAnswer').addEventListener('change', () => generate());
+      document.getElementById('termSelect').addEventListener('change', () => generate());
+      document.getElementById('shuffleBtn').addEventListener('click', () => generate({ reshuffle: true, forceRebuild: true }));
+      document.getElementById('printBtn').addEventListener('click', () => window.print());
+    }
+
+    async function init() {
+      try {
+        await loadAllData();
+        bindEvents();
+        generate({ forceRebuild: true, resetClass: true });
+      } catch (error) {
+        document.getElementById('pages').innerHTML = '<div style="padding:24px;font-size:18px;font-weight:700;">데이터 파일을 불러오지 못했습니다.</div>';
+        document.getElementById('statusText').textContent = error.message;
+      }
+    }
+
+    init();
   </script>
 </body>
 </html>
