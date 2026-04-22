@@ -17,7 +17,7 @@
     html, body {
       margin: 0;
       padding: 0;
-      font-family: Arial, "Noto Sans KR", sans-serif;
+      font-family: "Noto Sans KR", sans-serif;
       color: #111;
       background: var(--screen-bg);
     }
@@ -51,6 +51,13 @@
       color: #666;
       font-size: 13px;
       line-height: 1.55;
+    }
+
+    code {
+      font-family: "Noto Sans KR", sans-serif;
+      background: #f5f6f7;
+      padding: 1px 4px;
+      border-radius: 4px;
     }
 
     .field { margin-top: 12px; }
@@ -374,18 +381,21 @@
     }
 
     .center { text-align: center; }
+    .right { text-align: right; }
 
     .meta-line {
       height: 5.5mm;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-end;
       font-size: 3mm;
       font-weight: 700;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       flex: 0 0 auto;
+      padding-right: 0.8mm;
+      text-align: right;
     }
 
     .answer-notice {
@@ -409,6 +419,10 @@
       height: 130mm;
       overflow: hidden;
       flex: 0 0 auto;
+      border-left: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
     }
 
     .main-table table { height: 100%; }
@@ -449,6 +463,10 @@
     }
 
     .main-table tr { height: 6.5mm; }
+    .main-table tr:first-child td { border-top: 0; }
+    .main-table tr:last-child td { border-bottom: 0; }
+    .main-table td:first-child { border-left: 0; }
+    .main-table td:last-child { border-right: 0; }
 
     .section-label {
       height: 5mm;
@@ -560,7 +578,8 @@
       <h1>단어 시험지 인쇄용</h1>
       <div class="muted">
         A4 가로 한 장에 A5 세로 시험지 2장이 들어가는 구조입니다.<br>
-        로고는 같은 폴더의 <code>logo.png</code>를 자동으로 불러옵니다.
+        로고는 같은 폴더의 <code>logo.png</code>를 자동으로 불러옵니다.<br>
+        폰트는 전체를 <code>Noto Sans KR</code>만 사용하도록 맞췄습니다.
       </div>
 
       <div class="field-row">
@@ -635,7 +654,25 @@ X2 2A	14	4/28(화)	Day 1, 2	Voca Planner 중등 심화</textarea>
 mean	의미하다	meant	meant
 fry	튀기다	fried	fried
 let	허락하다	let	let
-become	~가 되다	became	become</textarea>
+become	~가 되다	became	become
+begin	시작하다	began	begun
+bring	가져오다	brought	brought
+buy	사다	bought	bought
+choose	선택하다	chose	chosen
+drink	마시다	drank	drunk</textarea>
+      </div>
+
+      <div class="status-box">
+        필요한 텍스트 파일 예시는 아래 형식이면 됩니다.<br><br>
+        <strong>vocab-data.txt</strong><br>
+        Day 31	universe	우주	표제어	Voca Planner 중등 심화	0601<br>
+        Day 31	galaxy	은하계	표제어	Voca Planner 중등 심화	0602<br><br>
+        <strong>schedule-data.txt</strong><br>
+        X2 2D	13	4/21(화)	Day 31, 32	Voca Planner 중등 심화<br>
+        X2 2D	14	4/28(화)	Day 1, 2	Voca Planner 중등 심화<br><br>
+        <strong>irregular-data.txt</strong><br>
+        light	불붙이다	lit	lit<br>
+        mean	의미하다	meant	meant
       </div>
 
       <div class="actions">
@@ -719,7 +756,7 @@ become	~가 되다	became	become</textarea>
             pp: cols[3] || ''
           };
         })
-        .filter(row => row.base);
+        .filter(row => row.base && row.meaning && row.past && row.pp);
     }
 
     function escapeHtml(text) {
@@ -777,12 +814,17 @@ become	~가 되다	became	become</textarea>
 
     function buildQuestionSet(vocabRows) {
       const unique = shuffle(dedupeWords(vocabRows));
-      const usable = unique.slice(0, 20);
+      const english = unique.slice(0, 17);
+      const korean = unique.slice(17, 20);
       return {
-        english: usable.slice(0, 17),
-        korean: usable.slice(17, 20),
+        english,
+        korean,
         total: unique.length
       };
+    }
+
+    function buildIrregularSet(rows) {
+      return shuffle(rows).slice(0, 5);
     }
 
     function renderPreviewToolbar(scheduleRows, termValue, selectedClass, selectedRound) {
@@ -874,8 +916,7 @@ become	~가 되다	became	become</textarea>
     }
 
     function renderIrregularTable(irregularRows, answerMode) {
-      const rows = irregularRows.slice(0, 5);
-      const body = rows.map((item, idx) => `
+      const body = irregularRows.map((item, idx) => `
         <tr>
           <td class="num">${21 + idx}</td>
           <td>${escapeHtml(item.meaning)}</td>
@@ -946,6 +987,7 @@ become	~가 되다	became	become</textarea>
     let lastSelectedClass = '';
     let lastSelectedRound = '';
     let cachedQuestionSet = null;
+    let cachedIrregularSet = null;
 
     function generate(options = {}) {
       const reshuffle = Boolean(options.reshuffle);
@@ -968,8 +1010,12 @@ become	~가 되다	became	become</textarea>
       if (!cachedQuestionSet || reshuffle || options.selectedClass || options.selectedRound || options.forceRebuild) {
         cachedQuestionSet = buildQuestionSet(filteredVocab);
       }
+      if (!cachedIrregularSet || reshuffle || options.forceRebuild) {
+        cachedIrregularSet = buildIrregularSet(irregularRows);
+      }
 
       const questionSet = cachedQuestionSet;
+      const irregularSet = cachedIrregularSet;
       const meta = {
         term: termValue,
         className: schedule.className,
@@ -986,8 +1032,8 @@ become	~가 되다	became	become</textarea>
         return `
           <section class="print-page">
             <div class="page-inner">
-              ${renderTicket(meta, questionSet, irregularRows, leftType === 'question' ? false : leftType === 'answer' ? true : null)}
-              ${renderTicket(meta, questionSet, irregularRows, rightType === 'question' ? false : rightType === 'answer' ? true : null)}
+              ${renderTicket(meta, questionSet, irregularSet, leftType === 'question' ? false : leftType === 'answer' ? true : null)}
+              ${renderTicket(meta, questionSet, irregularSet, rightType === 'question' ? false : rightType === 'answer' ? true : null)}
             </div>
           </section>
         `;
@@ -1001,7 +1047,7 @@ become	~가 되다	became	become</textarea>
       const questionCopies = slots.filter(x => x === 'question').length;
       const answerCopies = slots.filter(x => x === 'answer').length;
       const blankSlots = slots.filter(x => x === 'blank').length;
-      document.getElementById('statusBox').innerHTML = `선택된 반/회차 단어 수: <strong>${questionSet.total}</strong>개<br>생성된 문제지: <strong>${questionCopies}</strong>매 / 답지: <strong>${answerCopies}</strong>매 / 빈 칸: <strong>${blankSlots}</strong>칸<br>총 A4 페이지 수: <strong>${pagesData.length}</strong>장<br>인쇄 시 상단 선택 메뉴와 왼쪽 입력 패널은 출력되지 않습니다.`;
+      document.getElementById('statusBox').innerHTML = `선택된 반/회차 단어 수: <strong>${questionSet.total}</strong>개<br>출제 구성: <strong>영어단어 쓰기 17문제 + 한국어 쓰기 3문제 + 불규칙 5문제</strong><br>생성된 문제지: <strong>${questionCopies}</strong>매 / 답지: <strong>${answerCopies}</strong>매 / 빈 칸: <strong>${blankSlots}</strong>칸<br>총 A4 페이지 수: <strong>${pagesData.length}</strong>장`;
     }
 
     fillStudentCount();
@@ -1017,7 +1063,7 @@ become	~가 되다	became	become</textarea>
       lastSelectedRound = '';
       generate({ forceRebuild: true });
     });
-    document.getElementById('irregularData').addEventListener('input', () => generate({ forceRebuild: false }));
+    document.getElementById('irregularData').addEventListener('input', () => generate({ forceRebuild: true }));
   </script>
 </body>
 </html>
