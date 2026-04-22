@@ -1,0 +1,180 @@
+1	read [riːd]	read [rɛd]	read [rɛd]	읽다
+1	wind	wound	wound	(끈 등을) 감다
+1	hear	heard	heard	듣다, 들리다
+1	tell	told	told	이야기하다
+1	quit	quit/quitted	quit/quitted	그만두다
+1	freeze	froze	frozen	얼다
+1	lie	lied	lied	거짓말하다
+1	swim	swam	swum	수영하다
+1	win	won	won	이기다
+2	lend	lent	lent	빌려주다
+2	play	played	played	놀다, (운동 등을) 하다, 연주하다
+2	shake	shook	shaken	흔들다
+2	buy	bought	bought	사다, 사주다
+2	speed	speeded/sped	speeded/sped	빨리 가다, 과속하다
+2	kneel	knelt/kneeled	knelt/kneeled	무릎꿇다
+2	see	saw	seen	보다
+2	hang	hanged	hanged	교수형에 처하다
+2	deal	dealt	dealt	다루다, 거래하다
+3	do	did	done	하다
+3	keep	kept	kept	유지하다
+3	have	had	had	가지고 있다, 먹다
+3	fight	fought	fought	싸우다
+3	catch	caught	caught	집다
+3	sweep	swept	swept	청소하다, 쓸다
+3	begin	began	begun	시작하다
+3	burst	burst	burst	터트리다
+3	send	sent	sent	보내다
+4	dream	dreamt/dreamed	dreamt/dreamed	꿈꾸다
+4	spit	spat/spit	spat/spit	(침 등을) 뱉다
+4	mow	mowed	mown/mowed	(잔디를) 깎다
+4	cost	cost	cost	비용이 들다
+4	go	went	gone	가다
+4	think	thought	thought	생각하다
+4	wound	wounded	wounded	부상을 입히다
+4	leave	left	left	떠나다
+4	overtake	overtook	overtaken	(차) 추월하다, 앞지르다
+5	cut	cut	cut	베다, 자르다
+5	leap	leapt/leaped	leapt/leaped	도약하다, 뛰다
+5	sink	sank	sunk	가라앉다
+5	plan	planned	planned	계획하다
+5	build	built	built	(건물을) 짓다, 세우다
+5	split	split	split	쪼개다, 나누다
+5	hide	hid	hidden	숨다
+5	worship	worshipped	worshipped	숭배하다
+5	blow	blew	blown	불다
+6	meet	met	met	만나다
+6	eat	ate	eaten	먹다
+6	dye	dyed	dyed	염색하다
+6	grind	ground	ground	(잘게) 갈다
+6	arise	arose	arisen	생기다, 유발되다
+6	make	made	made	만들다
+6	choose	chose	chosen	선택하다, 고르다
+6	show	showed	showed/shown	보여주다
+6	set	set	set	두다, 정하다
+7	flow	flowed	flowed	흐르다
+7	picnic	picnicked	picnicked	소풍 가다
+7	hang	hung	hung	매달다
+7	spread	spread	spread	퍼뜨리다, 바르다
+7	may	might	X	~일 수도 있다, ~해도 된다
+7	sew	sewed	sewed/sewn	꿰매다
+7	forgive	forgave	forgiven	용서하다
+7	shut	shut	shut	닫다
+7	hold	held	held	잡고 있다, 유지하다
+8	shrink	shrank	shrunk	줄어들다, 오그라지다
+8	put	put	put	놓다
+8	seat	seated	seated	앉히다
+8	saw	sawed	sawn	톱으로 썰다
+8	visit	visited	visited	방문하다
+8	weep	wept	wept	눈물을 흘리다
+8	rise	rose	risen	일어나다, 오르다
+8	cast	cast	cast	던지다(낚싯대 등)
+8	bend	bent	bent	구부리다
+9	swing	swung	swung	흔들리다
+9	cling	clung	clung	달라붙다
+9	shop	shopped	shopped	쇼핑하다
+9	shine	shone	shone	빛나다
+9	bring	brought	brought	가져오다
+9	find	found	found	발견하다
+9	live	lived	lived	살다
+9	seek	sought	sought	구하다, 찾다
+9	bleed	bled	bled	피를 흘리다
+10	creep	crept	crept	숨어들다
+10	spell	spelt/spelled	spelt/spelled	철자를 대다
+10	shoot	shot	shot	쏘다
+10	cancel	canceled/cancelled	canceled/cancelled	취소하다
+10	bid	bid	bid	값을 매기다
+10	hit	hit	hit	치다(2)
+10	burn	burned/burnt	burned/burnt	타다, 태우다(불)
+10	lie	lay	lain	놓여 있다, 눕다
+10	beg	begged	begged	애원하다, 구걸하다
+11	bear	bore	born/borne	낳다, 참다
+11	lay	laid	laid	~을 놓다, (알을) 낳다
+11	overcome	overcame	overcome	극복하다
+11	teach	taught	taught	가르치다
+11	stick	stuck	stuck	찌르다, 붙이다
+11	sleep	slept	slept	자다
+11	breed	bred	bred	사육하다
+11	act	acted	acted	행동하다, 연기하다
+11	lose	lost	lost	잃다
+12	strike	struck	struck	치다(1)
+12	stroke	stroked	stroked	(가볍게) 두드리다
+12	forget	forgot	forgot/forgotten	잊다
+12	throw	threw	thrown	던지다(공 등)
+12	sow	sowed	sown/sowed	씨를 뿌리다
+12	fall	fell	fallen	떨어지다
+12	wake	woke	woken	잠에서 깨다
+12	spend	spent	spent	(시간, 돈 등을) 쓰다
+12	clothe	clothed	clothed	옷을 입히다
+13	let	let	let	허락하다
+13	become	became	become	-가 되다
+13	fry	fried	fried	튀기다
+13	steal	stole	stolen	훔치다
+13	light	lit	lit	불을 붙이다
+13	get	got	got/gotten	얻다, 받다
+13	know	knew	known	알다
+13	found	founded	founded	설립하다
+13	mean	meant	meant	의미하다
+14	regret	regretted	regretted	후회하다
+14	speak	spoke	spoken	말하다(1)
+14	shed	shed	shed	(피, 눈물) 흘리다
+14	fly	flew	flown	날다
+14	offer	offered	offered	제공하다
+14	weave	wove	woven	(천, 바구니 등을) 짜다, 엮다
+14	spill	spilled/spilt	spilled/spilt	쏟다, 흘리다
+14	drink	drank	drunk	마시다
+14	be/am/is/are	was/were	been	~이다, 있다
+15	ring	rang	rung	울리다
+15	wear	wore	worn	입다
+15	run	ran	run	달리다
+15	flee	fled	fled	달아나다
+15	spin	span/spun	spun	회전하다
+15	sing	sang	sung	노래하다
+15	break	broke	broken	부수다, 깨뜨리다
+15	feel	felt	felt	느끼다
+15	slide	slid	slid	미끄러지다
+16	drive	drove	driven	운전하다
+16	hurt	hurt	hurt	상처입히다
+16	ride	rode	ridden	타다, 태우다(차)
+16	hurry	hurried	hurried	서두르다
+16	learn	learnt/learned	learnt/learned	배우다
+16	drag	dragged	dragged	(질질) 끌다
+16	dig	dug	dug	땅을 파다
+16	bet	bet	bet	(돈을) 걸다, 장담하다
+16	sting	stung	stung	쏘다, 찌르다
+17	smell	smelled/smelt	smelled/smelt	냄새맡다, -한 냄새가 나다
+17	refer	referred	referred	추천하다, 지시하다, 지칭하다
+17	say	said	said	말하다(2)
+17	rub	rubbed	rubbed	문지르다
+17	beat	beat	beaten	때리다, 이기다
+17	swear	swore	sworn	맹세하다
+17	travel	traveled/travelled	traveled/travelled	여행하다
+17	sell	sold	sold	팔다
+17	study	studied	studied	공부하다
+18	pay	paid	paid	지불하다
+18	lean	leant	leant	기대다
+18	take	took	taken	가져가다
+18	cry	cried	cried	울다
+18	upset	upset	upset	화나게 하다
+18	dwell	dwellt/dwelled	dwellt/dwelled	거주하다
+18	can	could	X	~할 수 있다
+18	swell	swelled	swelled/swollen	(상처 등이) 붓다, 부풀다
+18	give	gave	given	주다
+19	spoil	spoilt/spoiled	spoilt/spoiled	망치다, (음식이) 상하다
+19	tear	tore	torn	찢다
+19	write	wrote	written	(글을) 쓰다
+19	feed	fed	fed	먹이다
+19	sit	sat	sat	앉다
+19	bind	bound	bound	묶다
+19	come	came	come	오다
+19	fill	filled	filled	채우다
+19	fell	felled	felled	(나무를) 베어 넘어뜨리다
+20	forbid	forbade	forbidden	금지하다
+20	panic	panicked	panicked	크게 당황하다
+20	draw	drew	drawn	그리다, 끌다, 잡아당기다
+20	grow	grew	grown	자라다, 기르다
+20	raise	raised	raised	올리다
+20	stand	stood	stood	일어서다
+20	bite	bit	bitten	씹다, 깨물다
+20	mimic	mimicked	mimicked	흉내내다
+20	die	died	died	죽다

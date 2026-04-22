@@ -1,0 +1,80 @@
+X4'	3/5(목)	Day 1	Word Master 하이스트
+X4'	3/10(화)	Day 1, 2	Word Master 하이스트
+X4'	3/12(목)	Day 1, 2, 3	Word Master 하이스트
+X4'	3/17(화)	Day 2, 3, 4	Word Master 하이스트
+X4'	3/19(목)	Day 3, 4, 5	Word Master 하이스트
+X4'	3/24(화)	Day 4, 5, 6	Word Master 하이스트
+X4'	3/31(화)	Day 5, 6, 7	Word Master 하이스트
+X4'	4/2(목)	Day 6, 7, 8	Word Master 하이스트
+X4'	4/7(화)	Day 7, 8, 9	Word Master 하이스트
+X4'	4/9(목)	Day 8, 9, 10	Word Master 하이스트
+X4'	4/14(화)	Day 9, 10, 11	Word Master 하이스트
+X4'	4/16(목)	Day 10, 11, 12	Word Master 하이스트
+X4'	4/21(화)	Day 11, 12, 13	Word Master 하이스트
+X4'	4/23(목)	Day 12, 13, 14	Word Master 하이스트
+X4'	4/28(화)	Day 13, 14, 15	Word Master 하이스트
+X4'	5/7(목)	Day 14, 15, 16	Word Master 하이스트
+X4'	5/12(화)	Day 15, 16, 17	Word Master 하이스트
+X4'	5/19(화)	Day 16, 17, 18	Word Master 하이스트
+X4'	5/21(목)	Day 17, 18, 19	Word Master 하이스트
+X4'	5/26(화)	Day 18, 19, 20	Word Master 하이스트
+X1 3D	3/6(금)	Day 1, 2	워드마스터 중등 실력
+X1 3D	3/9(월)	Day 3, 4	워드마스터 중등 실력
+X1 3D	3/13(금)	Day 5, 6	워드마스터 중등 실력
+X1 3D	3/16(월)	Day 7, 8	워드마스터 중등 실력
+X1 3D	3/20(금)	Day 9, 10	워드마스터 중등 실력
+X1 3D	3/23(월)	Day 11, 12	워드마스터 중등 실력
+X1 3D	3/27(금)	Day 13, 14	워드마스터 중등 실력
+X1 3D	4/3(금)	Day 15, 16	워드마스터 중등 실력
+X1 3D	4/8(수)	Day 17, 18	워드마스터 중등 실력
+X1 3D	4/10(금)	Day 19, 20	워드마스터 중등 실력
+X1 3D	4/13(월)	Day 21, 22	워드마스터 중등 실력
+X1 3D	4/17(금)	Day 23, 24	워드마스터 중등 실력
+X1 3D	4/20(월)	Day 25, 26	워드마스터 중등 실력
+X1 3D	4/27(월)	Day 27, 28	워드마스터 중등 실력
+X1 3D	5/4(월)	Day 29, 30	워드마스터 중등 실력
+X1 3D	5/8(금)	Day 31, 32	워드마스터 중등 실력
+X1 3D	5/11(월)	Day 33, 34	워드마스터 중등 실력
+X1 3D	5/15(금)	Day 35, 36	워드마스터 중등 실력
+X1 3D	5/18(월)	Day 37, 38	워드마스터 중등 실력
+X1 3D	5/22(금)	Day 39, 40	워드마스터 중등 실력
+X2 2D	3/5(목)	Day 1, 2	Voca Planner 중등 심화
+X2 2D	3/10(화)	Day 3, 4, 5	Voca Planner 중등 심화
+X2 2D	3/12(목)	Day 6, 7	Voca Planner 중등 심화
+X2 2D	3/17(화)	Day 8, 9, 10	Voca Planner 중등 심화
+X2 2D	3/19(목)	Day 11, 12	Voca Planner 중등 심화
+X2 2D	3/24(화)	Day 13, 14, 15	Voca Planner 중등 심화
+X2 2D	3/31(화)	Day 16, 17	Voca Planner 중등 심화
+X2 2D	4/2(목)	Day 18, 19, 20	Voca Planner 중등 심화
+X2 2D	4/7(화)	Day 21, 22	Voca Planner 중등 심화
+X2 2D	4/9(목)	Day 23, 24, 25	Voca Planner 중등 심화
+X2 2D	4/14(화)	Day 26, 27	Voca Planner 중등 심화
+X2 2D	4/16(목)	Day 28, 29, 30	Voca Planner 중등 심화
+X2 2D	4/21(화)	Day 31, 32	Voca Planner 중등 심화
+X2 2D	4/23(목)	Day 33, 34, 35	Voca Planner 중등 심화
+X2 2D	4/28(화)	Day 36, 37	Voca Planner 중등 심화
+X2 2D	5/7(목)	Day 38, 39, 40	Voca Planner 중등 심화
+X2 2D	5/12(화)	Day 41, 42	Voca Planner 중등 심화
+X2 2D	5/19(화)	Day 43, 44, 45	Voca Planner 중등 심화
+X2 2D	5/21(목)	Day 46, 47	Voca Planner 중등 심화
+X2 2D	5/26(화)	Day 48, 49, 50	Voca Planner 중등 심화
+X2 3D	3/6(금)	Day 1, 2	Voca Planner 중등 심화
+X2 3D	3/9(월)	Day 3, 4, 5	Voca Planner 중등 심화
+X2 3D	3/13(금)	Day 6, 7	Voca Planner 중등 심화
+X2 3D	3/16(월)	Day 8, 9, 10	Voca Planner 중등 심화
+X2 3D	3/20(금)	Day 11, 12	Voca Planner 중등 심화
+X2 3D	3/23(월)	Day 13, 14, 15	Voca Planner 중등 심화
+X2 3D	3/27(금)	Day 16, 17	Voca Planner 중등 심화
+X2 3D	4/3(금)	Day 18, 19, 20	Voca Planner 중등 심화
+X2 3D	4/8(수)	Day 21, 22	Voca Planner 중등 심화
+X2 3D	4/10(금)	Day 23, 24, 25	Voca Planner 중등 심화
+X2 3D	4/13(월)	Day 26, 27	Voca Planner 중등 심화
+X2 3D	4/17(금)	Day 28, 29, 30	Voca Planner 중등 심화
+X2 3D	4/20(월)	Day 31, 32	Voca Planner 중등 심화
+X2 3D	4/27(월)	Day 33, 34, 35	Voca Planner 중등 심화
+X2 3D	5/4(월)	Day 36, 37	Voca Planner 중등 심화
+X2 3D	5/8(금)	Day 38, 39, 40	Voca Planner 중등 심화
+X2 3D	5/11(월)	Day 41, 42	Voca Planner 중등 심화
+X2 3D	5/15(금)	Day 43, 44, 45	Voca Planner 중등 심화
+X2 3D	5/18(월)	Day 46, 47	Voca Planner 중등 심화
+X2 3D	5/22(금)	Day 48, 49, 50	Voca Planner 중등 심화
