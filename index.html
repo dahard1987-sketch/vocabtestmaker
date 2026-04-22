@@ -309,7 +309,7 @@
     .center { text-align: center; }
 
     .meta-line {
-      height: 5.5mm;
+      height: 5mm;
       display: flex;
       align-items: center;
       justify-content: flex-end;
@@ -324,8 +324,8 @@
     }
 
     .answer-notice {
-      height: 14mm;
-      margin-bottom: 1.4mm;
+      height: 12mm;
+      margin-bottom: 1.2mm;
       flex: 0 0 auto;
       overflow: hidden;
     }
@@ -334,14 +334,14 @@
       background: #000;
       color: #fff;
       text-align: center;
-      font-size: 4.3mm;
+      font-size: 4mm;
       font-weight: 900;
-      line-height: 1.1;
-      padding: 1.3mm;
+      line-height: 1.05;
+      padding: 1mm;
     }
 
     .main-table {
-      height: 130mm;
+      height: 112mm;
       overflow: hidden;
       flex: 0 0 auto;
       border-left: 1px solid var(--line);
@@ -359,9 +359,9 @@
 
     .main-table td,
     .irregular-table td {
-      padding: 0.5mm 1mm;
-      font-size: 3.2mm;
-      line-height: 1.1;
+      padding: 0.45mm 0.9mm;
+      font-size: 3.05mm;
+      line-height: 1.05;
       overflow: hidden;
     }
 
@@ -386,30 +386,30 @@
 
     .main-table td.code {
       text-align: right;
-      font-size: 2.9mm;
+      font-size: 2.85mm;
       font-weight: 700;
       padding-right: 1mm;
       border-left: 0;
     }
 
-    .main-table tr { height: 6.5mm; }
+    .main-table tr { height: 5.55mm; }
     .main-table tr:first-child td { border-top: 0; }
     .main-table tr:last-child td { border-bottom: 0; }
     .main-table td:first-child { border-left: 0; }
     .main-table td:last-child { border-right: 0; }
 
     .section-label {
-      height: 5mm;
+      height: 4.6mm;
       display: flex;
       align-items: center;
-      font-size: 3.15mm;
+      font-size: 3.05mm;
       font-weight: 800;
       white-space: nowrap;
       flex: 0 0 auto;
     }
 
     .irregular-table {
-      height: 35mm;
+      height: 28mm;
       overflow: hidden;
       flex: 0 0 auto;
     }
@@ -420,7 +420,7 @@
     .irregular-table col.past { width: 33mm; }
     .irregular-table col.pp { width: 33mm; }
 
-    .irregular-table tr { height: 7mm; }
+    .irregular-table tr { height: 5.4mm; }
 
     .blank-fill { width: 100%; height: 100%; }
 
@@ -586,28 +586,25 @@
     }
 
     function parseDayList(dayLabel) {
-  const raw = String(dayLabel)
-    .split(',')
-    .map(x => x.trim())
-    .filter(Boolean);
+      const raw = String(dayLabel)
+        .split(',')
+        .map(x => x.trim())
+        .filter(Boolean);
 
-  let prefix = 'Day';
-
-  return raw.map(token => {
-    const full = token.match(/^(Day)\s*(\d+)$/i);
-    if (full) {
-      prefix = full[1];
-      return full[1] + ' ' + full[2];
+      let prefix = 'Day';
+      return raw.map(token => {
+        const full = token.match(/^(Day)\s*(\d+)$/i);
+        if (full) {
+          prefix = full[1];
+          return full[1] + ' ' + full[2];
+        }
+        const onlyNumber = token.match(/^\d+$/);
+        if (onlyNumber) {
+          return prefix + ' ' + onlyNumber[0];
+        }
+        return token;
+      });
     }
-
-    const onlyNumber = token.match(/^\d+$/);
-    if (onlyNumber) {
-      return prefix + ' ' + onlyNumber[0];
-    }
-
-    return token;
-  });
-}
 
     function parseVocabTSV(text) {
       return text
@@ -629,38 +626,36 @@
     }
 
     function parseScheduleTSV(text) {
-  const rows = text
-    .split(/\r?\n/)
-    .map(line => line.trim())
-    .filter(Boolean)
-    .map(line => {
-      const cols = line.split('\t');
-      return {
-        className: cols[0] || '',
-        testDate: cols[1] || '',
-        dayLabel: cols[2] || '',
-        bookName: cols[3] || ''
-      };
-    })
-    .filter(row => row.className && row.testDate && row.dayLabel);
+      const baseRows = text
+        .split(/\r?\n/)
+        .map(line => line.trim())
+        .filter(Boolean)
+        .map(line => {
+          const cols = line.split('\t');
+          return {
+            className: cols[0] || '',
+            testDate: cols[1] || '',
+            dayLabel: cols[2] || '',
+            bookName: cols[3] || ''
+          };
+        })
+        .filter(row => row.className && row.testDate && row.dayLabel);
 
-  const counters = new Map();
-
-  return rows.map(row => {
-    const key = row.className + '||' + row.bookName;
-    const round = (counters.get(key) || 0) + 1;
-    counters.set(key, round);
-
-    return {
-      className: row.className,
-      roundLabel: String(round),
-      roundDisplay: String(round) + '회',
-      testDate: row.testDate,
-      dayLabel: row.dayLabel,
-      bookName: row.bookName
-    };
-  });
-}
+      const counters = new Map();
+      return baseRows.map(row => {
+        const key = row.className + '||' + row.bookName;
+        const round = (counters.get(key) || 0) + 1;
+        counters.set(key, round);
+        return {
+          className: row.className,
+          roundLabel: String(round),
+          roundDisplay: String(round) + '회',
+          testDate: row.testDate,
+          dayLabel: row.dayLabel,
+          bookName: row.bookName
+        };
+      });
+    }
 
     function parseIrregularTSV(text) {
       return text
@@ -682,9 +677,7 @@
 
     async function loadTextFile(path) {
       const response = await fetch(path, { cache: 'no-store' });
-      if (!response.ok) {
-        throw new Error(`${path} 로드 실패`);
-      }
+      if (!response.ok) throw new Error(path + ' 로드 실패');
       return response.text();
     }
 
@@ -703,7 +696,7 @@
     function dedupeWords(rows) {
       const seen = new Set();
       return rows.filter(row => {
-        const key = `${row.word.toLowerCase()}__${row.code}`;
+        const key = String(row.word).toLowerCase() + '__' + String(row.code);
         if (seen.has(key)) return false;
         seen.add(key);
         return true;
@@ -711,23 +704,20 @@
     }
 
     function getFilteredVocab(allRows, schedule) {
-  const daySet = new Set(parseDayList(schedule.dayLabel));
-  const targetBook = String(schedule.bookName || '').trim();
-
-  return allRows.filter(row => {
-    const sameBook = !targetBook || String(row.book || '').trim() === targetBook;
-    const sameDay = daySet.size === 0 || daySet.has(String(row.day || '').trim());
-    return sameBook && sameDay;
-  });
-}
+      const daySet = new Set(parseDayList(schedule.dayLabel));
+      const targetBook = String(schedule.bookName || '').trim();
+      return allRows.filter(row => {
+        const sameBook = !targetBook || String(row.book || '').trim() === targetBook;
+        const sameDay = daySet.size === 0 || daySet.has(String(row.day || '').trim());
+        return sameBook && sameDay;
+      });
+    }
 
     function buildQuestionSet(rows) {
       const unique = shuffle(dedupeWords(rows));
-      const english = unique.slice(0, 17);
-      const korean = unique.slice(17, 20);
       return {
-        english,
-        korean,
+        english: unique.slice(0, 17),
+        korean: unique.slice(17, 20),
         total: unique.length
       };
     }
@@ -741,24 +731,16 @@
       const classSelect = document.getElementById('classSelect');
       const classes = [...new Set(scheduleRows.map(row => row.className))];
       classSelect.innerHTML = classes.map(name => `<option value="${escapeHtml(name)}">${escapeHtml(name)}</option>`).join('');
-      if (classes.includes(lastSelectedClass)) {
-        classSelect.value = lastSelectedClass;
-      } else if (classes.length) {
-        classSelect.value = classes[0];
-      }
+      if (classes.includes(lastSelectedClass)) classSelect.value = lastSelectedClass;
+      else if (classes.length) classSelect.value = classes[0];
     }
 
     function populateRoundSelect(selectedClass) {
       const roundSelect = document.getElementById('roundSelect');
-      const rounds = scheduleRows
-        .filter(row => row.className === selectedClass)
-        .map(row => row.roundLabel);
-      roundSelect.innerHTML = rounds.map(round => `<option value="${escapeHtml(round)}">${escapeHtml(round)}</option>`).join('');
-      if (rounds.includes(lastSelectedRound)) {
-        roundSelect.value = lastSelectedRound;
-      } else if (rounds.length) {
-        roundSelect.value = rounds[0];
-      }
+      const rows = scheduleRows.filter(row => row.className === selectedClass);
+      roundSelect.innerHTML = rows.map(row => `<option value="${escapeHtml(row.roundLabel)}">${escapeHtml(row.roundLabel)}</option>`).join('');
+      if (rows.some(row => row.roundLabel === lastSelectedRound)) roundSelect.value = lastSelectedRound;
+      else if (rows.length) roundSelect.value = rows[0].roundLabel;
     }
 
     function getSelectedSchedule() {
@@ -882,10 +864,6 @@
     }
 
     function updateStatus(schedule, questionSet, irregularSet, pagesData) {
-      const copyCount = Number(document.getElementById('copyCount').value || 1);
-      const includeAnswer = document.getElementById('includeAnswer').checked;
-      const totalSlots = buildSlots(copyCount, includeAnswer);
-      const answerCount = includeAnswer ? 1 : 0;
       document.getElementById('statusText').innerHTML = `${escapeHtml(schedule.bookName)}<br>${questionSet.total}단어 · 불규칙 ${irregularSet.length}개 · ${pagesData.length}장`;
     }
 
@@ -917,13 +895,13 @@
       const questionSet = cachedQuestionSet;
       const irregularSet = cachedIrregularSet;
       const meta = {
-  term: document.getElementById('termSelect').value,
-  className: schedule.className,
-  roundLabel: schedule.roundLabel,
-  roundDisplay: schedule.roundDisplay,
-  testDate: schedule.testDate,
-  dayLabel: schedule.dayLabel
-};
+        term: document.getElementById('termSelect').value,
+        className: schedule.className,
+        roundLabel: schedule.roundLabel,
+        roundDisplay: schedule.roundDisplay,
+        testDate: schedule.testDate,
+        dayLabel: schedule.dayLabel
+      };
 
       const copyCount = Number(document.getElementById('copyCount').value || 1);
       const includeAnswer = document.getElementById('includeAnswer').checked;
