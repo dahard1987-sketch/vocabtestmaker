@@ -649,17 +649,22 @@ X2 2A	14	4/28(화)	Day 1, 2	Voca Planner 중등 심화</textarea>
       </div>
 
       <div class="field">
-        <label for="irregularData">불규칙동사 데이터 (탭 구분: 기본형 / 뜻 / 과거형 / p.p.)</label>
-        <textarea id="irregularData">light	불붙이다	lit	lit
-mean	의미하다	meant	meant
-fry	튀기다	fried	fried
-let	허락하다	let	let
-become	~가 되다	became	become
-begin	시작하다	began	begun
-bring	가져오다	brought	brought
-buy	사다	bought	bought
-choose	선택하다	chose	chosen
-drink	마시다	drank	drunk</textarea>
+        <label for="irregularData">불규칙동사 데이터 (탭 구분: 차수 / 기본형 / 과거형 / p.p. / 뜻)</label>
+        <textarea id="irregularData">13	let	let	let	허락하다
+13	become	became	become	-가 되다
+13	fry	fried	fried	튀기다
+13	steal	stole	stolen	훔치다
+13	light	lit	lit	불을 붙이다
+13	get	got	got/gotten	얻다, 받다
+13	know	knew	known	알다
+13	found	founded	founded	설립하다
+13	mean	meant	meant	의미하다
+14	regret	regretted	regretted	후회하다
+14	speak	spoke	spoken	말하다(1)
+14	shed	shed	shed	(피, 눈물) 흘리다
+14	fly	flew	flown	날다
+14	offer	offered	offered	제공하다
+14	weave	wove	woven	짜다, 엮다</textarea>
       </div>
 
       <div class="status-box">
@@ -671,8 +676,8 @@ drink	마시다	drank	drunk</textarea>
         X2 2D	13	4/21(화)	Day 31, 32	Voca Planner 중등 심화<br>
         X2 2D	14	4/28(화)	Day 1, 2	Voca Planner 중등 심화<br><br>
         <strong>irregular-data.txt</strong><br>
-        light	불붙이다	lit	lit<br>
-        mean	의미하다	meant	meant
+        13	let	let	let	허락하다<br>
+        13	become	became	become	-가 되다
       </div>
 
       <div class="actions">
@@ -744,19 +749,22 @@ drink	마시다	drank	drunk</textarea>
 
     function parseIrregularTSV(text) {
       return text
-        .split(/\r?\n/)
+        .split(/
+?
+/)
         .map(line => line.trim())
         .filter(Boolean)
         .map(line => {
-          const cols = line.split('\t');
+          const cols = line.split('	');
           return {
-            base: cols[0] || '',
-            meaning: cols[1] || '',
+            round: cols[0] || '',
+            base: cols[1] || '',
             past: cols[2] || '',
-            pp: cols[3] || ''
+            pp: cols[3] || '',
+            meaning: cols[4] || ''
           };
         })
-        .filter(row => row.base && row.meaning && row.past && row.pp);
+        .filter(row => row.round && row.base && row.meaning && row.past && row.pp);
     }
 
     function escapeHtml(text) {
@@ -823,8 +831,10 @@ drink	마시다	drank	drunk</textarea>
       };
     }
 
-    function buildIrregularSet(rows) {
-      return shuffle(rows).slice(0, 5);
+    function buildIrregularSet(rows, roundLabel) {
+      const target = String(roundLabel || '').trim();
+      const filtered = rows.filter(row => String(row.round).trim() === target);
+      return shuffle(filtered).slice(0, 5);
     }
 
     function renderPreviewToolbar(scheduleRows, termValue, selectedClass, selectedRound) {
@@ -1010,8 +1020,8 @@ drink	마시다	drank	drunk</textarea>
       if (!cachedQuestionSet || reshuffle || options.selectedClass || options.selectedRound || options.forceRebuild) {
         cachedQuestionSet = buildQuestionSet(filteredVocab);
       }
-      if (!cachedIrregularSet || reshuffle || options.forceRebuild) {
-        cachedIrregularSet = buildIrregularSet(irregularRows);
+      if (!cachedIrregularSet || reshuffle || options.forceRebuild || options.selectedRound || options.selectedClass) {
+        cachedIrregularSet = buildIrregularSet(irregularRows, schedule.roundLabel);
       }
 
       const questionSet = cachedQuestionSet;
@@ -1047,7 +1057,7 @@ drink	마시다	drank	drunk</textarea>
       const questionCopies = slots.filter(x => x === 'question').length;
       const answerCopies = slots.filter(x => x === 'answer').length;
       const blankSlots = slots.filter(x => x === 'blank').length;
-      document.getElementById('statusBox').innerHTML = `선택된 반/회차 단어 수: <strong>${questionSet.total}</strong>개<br>출제 구성: <strong>영어단어 쓰기 17문제 + 한국어 쓰기 3문제 + 불규칙 5문제</strong><br>생성된 문제지: <strong>${questionCopies}</strong>매 / 답지: <strong>${answerCopies}</strong>매 / 빈 칸: <strong>${blankSlots}</strong>칸<br>총 A4 페이지 수: <strong>${pagesData.length}</strong>장`;
+      document.getElementById('statusBox').innerHTML = `선택된 반/회차 단어 수: <strong>${questionSet.total}</strong>개<br>출제 구성: <strong>영어단어 쓰기 17문제 + 한국어 쓰기 3문제 + 해당 차수 불규칙 5문제</strong><br>불규칙 차수 기준: <strong>${escapeHtml(schedule.roundLabel)}</strong>차<br>생성된 문제지: <strong>${questionCopies}</strong>매 / 답지: <strong>${answerCopies}</strong>매 / 빈 칸: <strong>${blankSlots}</strong>칸<br>총 A4 페이지 수: <strong>${pagesData.length}</strong>장`;
     }
 
     fillStudentCount();
