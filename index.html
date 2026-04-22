@@ -171,6 +171,7 @@
 
     .ticket.blank { border: 0; }
 
+    /* ── 헤더: brand-box + info-box(또는 answer-notice) ── */
     .ticket-header {
       display: grid;
       grid-template-columns: 96mm 40.5mm;
@@ -180,7 +181,6 @@
 
     .brand-box,
     .info-box,
-    .answer-notice,
     .main-table,
     .irregular-table {
       border: 1px solid var(--line);
@@ -273,15 +273,35 @@
       display: inline-block;
     }
 
+    /* ── 일반 info-box ── */
     .info-box {
       height: 24mm;
       overflow: hidden;
     }
 
+    /* ── 답지 전용 notice-box (info-box 자리에 들어감) ── */
+    .notice-box {
+      height: 24mm;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .notice-box-text {
+      color: #fff;
+      text-align: center;
+      font-size: 4.4mm;
+      font-weight: 900;
+      line-height: 1.25;
+      padding: 1mm;
+    }
+
     .info-box table,
     .main-table table,
-    .irregular-table table,
-    .answer-notice table {
+    .irregular-table table {
       width: 100%;
       height: 100%;
       border-collapse: collapse;
@@ -290,8 +310,7 @@
 
     .info-box td,
     .main-table td,
-    .irregular-table td,
-    .answer-notice td {
+    .irregular-table td {
       border: 1px solid var(--line);
       vertical-align: middle;
     }
@@ -312,32 +331,30 @@
       height: 5mm;
       display: flex;
       align-items: center;
-      justify-content: flex-end;
+      justify-content: space-between;
       font-size: 3mm;
       font-weight: 700;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       flex: 0 0 auto;
-      padding-right: 0.8mm;
-      text-align: right;
+      padding: 0 0.8mm;
     }
 
-    .answer-notice {
-      height: 12mm;
-      margin-bottom: 1.2mm;
-      flex: 0 0 auto;
+    .meta-line .meta-left {
       overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .answer-notice td {
-      background: #000;
-      color: #fff;
-      text-align: center;
-      font-size: 4mm;
-      font-weight: 900;
-      line-height: 1.05;
-      padding: 1mm;
+    .meta-line .meta-right {
+      font-size: 2.6mm;
+      font-weight: 600;
+      color: #555;
+      flex-shrink: 0;
+      padding-left: 2mm;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: right;
     }
 
     .main-table {
@@ -352,10 +369,10 @@
 
     .main-table table { height: 100%; }
 
-    .main-table col.num { width: 8mm; }
+    .main-table col.num    { width: 8mm; }
     .main-table col.prompt { width: 95mm; }
     .main-table col.answer { width: 22mm; }
-    .main-table col.code { width: 11.5mm; }
+    .main-table col.code   { width: 11.5mm; }
 
     .main-table td,
     .irregular-table td {
@@ -380,8 +397,14 @@
       text-overflow: ellipsis;
     }
 
+    /* 문제지: 답 칸 비움 */
     .main-table td.answer-cell.question {
       color: transparent;
+    }
+
+    /* 답지: 답 칸 볼드 */
+    .main-table td.answer-cell.answer-show {
+      font-weight: 800;
     }
 
     .main-table td.code {
@@ -394,9 +417,9 @@
 
     .main-table tr { height: 5.55mm; }
     .main-table tr:first-child td { border-top: 0; }
-    .main-table tr:last-child td { border-bottom: 0; }
-    .main-table td:first-child { border-left: 0; }
-    .main-table td:last-child { border-right: 0; }
+    .main-table tr:last-child td  { border-bottom: 0; }
+    .main-table td:first-child    { border-left: 0; }
+    .main-table td:last-child     { border-right: 0; }
 
     .section-label {
       height: 4.6mm;
@@ -414,13 +437,18 @@
       flex: 0 0 auto;
     }
 
-    .irregular-table col.num { width: 8mm; }
+    .irregular-table col.num     { width: 8mm; }
     .irregular-table col.meaning { width: 34mm; }
-    .irregular-table col.base { width: 28mm; }
-    .irregular-table col.past { width: 33mm; }
-    .irregular-table col.pp { width: 33mm; }
+    .irregular-table col.base    { width: 28mm; }
+    .irregular-table col.past    { width: 33mm; }
+    .irregular-table col.pp      { width: 33mm; }
 
     .irregular-table tr { height: 5.4mm; }
+
+    /* 답지 불규칙 답 칸 볼드 */
+    .irregular-table td.irr-ans {
+      font-weight: 800;
+    }
 
     .blank-fill { width: 100%; height: 100%; }
 
@@ -443,9 +471,7 @@
         margin: 0;
       }
 
-      .topbar {
-        display: none !important;
-      }
+      .topbar { display: none !important; }
 
       .preview-wrap {
         overflow: visible;
@@ -469,18 +495,15 @@
         break-after: auto;
       }
 
-      .print-page::after {
-        top: 0;
-        bottom: 0;
-      }
+      .print-page::after { top: 0; bottom: 0; }
 
       .ticket,
       .ticket-header,
       .brand-box,
       .info-box,
+      .notice-box,
       .main-table,
       .irregular-table,
-      .answer-notice,
       .meta-line,
       .section-label,
       .main-table table,
@@ -576,6 +599,7 @@
       return arr;
     }
 
+    /* 뜻 여러 개를 최대 3개까지 쉼표로 합침 */
     function shortMeaning(text) {
       return String(text)
         .split(/\s*[;,]\s*/)
@@ -585,6 +609,8 @@
         .join(', ');
     }
 
+    /* ── 수정 1: parseDayList 개선 ──
+       "Day 11, 12" → ["Day 11", "Day 12"] 처리 */
     function parseDayList(dayLabel) {
       const raw = String(dayLabel)
         .split(',')
@@ -594,14 +620,9 @@
       let prefix = 'Day';
       return raw.map(token => {
         const full = token.match(/^(Day)\s*(\d+)$/i);
-        if (full) {
-          prefix = full[1];
-          return full[1] + ' ' + full[2];
-        }
+        if (full) { prefix = full[1]; return full[1] + ' ' + full[2]; }
         const onlyNumber = token.match(/^\d+$/);
-        if (onlyNumber) {
-          return prefix + ' ' + onlyNumber[0];
-        }
+        if (onlyNumber) return prefix + ' ' + onlyNumber[0];
         return token;
       });
     }
@@ -614,17 +635,20 @@
         .map(line => {
           const cols = line.split('\t');
           return {
-            day: cols[0] || '',
-            word: cols[1] || '',
+            day:     cols[0] || '',
+            word:    cols[1] || '',
             meaning: cols[2] || '',
-            kind: cols[3] || '',
-            book: cols[4] || '',
-            code: cols[5] || ''
+            kind:    cols[3] || '',
+            book:    cols[4] || '',
+            code:    cols[5] || ''
           };
         })
         .filter(row => row.day && row.word && row.meaning);
     }
 
+    /* ── 수정 2: schedule에 nextDate / nextDayLabel 컬럼 추가 ──
+       schedule-data.txt 형식: className\ttestDate\tdayLabel\tbookName\tnextDate\tnextDayLabel
+       nextDate, nextDayLabel은 없어도 동작 */
     function parseScheduleTSV(text) {
       const baseRows = text
         .split(/\r?\n/)
@@ -633,10 +657,12 @@
         .map(line => {
           const cols = line.split('\t');
           return {
-            className: cols[0] || '',
-            testDate: cols[1] || '',
-            dayLabel: cols[2] || '',
-            bookName: cols[3] || ''
+            className:    cols[0] || '',
+            testDate:     cols[1] || '',
+            dayLabel:     cols[2] || '',
+            bookName:     cols[3] || '',
+            nextDate:     cols[4] || '',   // 추가: 다음 시험 날짜
+            nextDayLabel: cols[5] || ''    // 추가: 다음 Day 범위
           };
         })
         .filter(row => row.className && row.testDate && row.dayLabel);
@@ -647,12 +673,14 @@
         const round = (counters.get(key) || 0) + 1;
         counters.set(key, round);
         return {
-          className: row.className,
-          roundLabel: String(round),
+          className:    row.className,
+          roundLabel:   String(round),
           roundDisplay: String(round) + '회',
-          testDate: row.testDate,
-          dayLabel: row.dayLabel,
-          bookName: row.bookName
+          testDate:     row.testDate,
+          dayLabel:     row.dayLabel,
+          bookName:     row.bookName,
+          nextDate:     row.nextDate,
+          nextDayLabel: row.nextDayLabel
         };
       });
     }
@@ -665,10 +693,10 @@
         .map(line => {
           const cols = line.split('\t');
           return {
-            round: cols[0] || '',
-            base: cols[1] || '',
-            past: cols[2] || '',
-            pp: cols[3] || '',
+            round:   cols[0] || '',
+            base:    cols[1] || '',
+            past:    cols[2] || '',
+            pp:      cols[3] || '',
             meaning: cols[4] || ''
           };
         })
@@ -687,9 +715,8 @@
         loadTextFile('./schedule-data.txt'),
         loadTextFile('./irregular-data.txt')
       ]);
-
-      vocabRows = parseVocabTSV(vocabText);
-      scheduleRows = parseScheduleTSV(scheduleText);
+      vocabRows     = parseVocabTSV(vocabText);
+      scheduleRows  = parseScheduleTSV(scheduleText);
       irregularRows = parseIrregularTSV(irregularText);
     }
 
@@ -704,21 +731,29 @@
     }
 
     function getFilteredVocab(allRows, schedule) {
-      const daySet = new Set(parseDayList(schedule.dayLabel));
+      const daySet    = new Set(parseDayList(schedule.dayLabel));
       const targetBook = String(schedule.bookName || '').trim();
       return allRows.filter(row => {
         const sameBook = !targetBook || String(row.book || '').trim() === targetBook;
-        const sameDay = daySet.size === 0 || daySet.has(String(row.day || '').trim());
+        const sameDay  = daySet.size === 0 || daySet.has(String(row.day || '').trim());
         return sameBook && sameDay;
       });
     }
 
+    /* ── 수정 3: 단어 부족 시 경고 + 가능한 만큼만 사용 ── */
     function buildQuestionSet(rows) {
       const unique = shuffle(dedupeWords(rows));
+      const total  = unique.length;
+      if (total < 20) {
+        console.warn(`단어 수 부족: ${total}개 (최소 20개 필요)`);
+      }
+      const engCount = Math.min(17, total);
+      const korStart = engCount;
+      const korCount = Math.min(3, total - korStart);
       return {
-        english: unique.slice(0, 17),
-        korean: unique.slice(17, 20),
-        total: unique.length
+        english: unique.slice(0, engCount),
+        korean:  unique.slice(korStart, korStart + korCount),
+        total
       };
     }
 
@@ -727,10 +762,13 @@
       return shuffle(filtered).slice(0, 5);
     }
 
+    /* ── 수정 4: classSelect populate 후 roundSelect 갱신 분리 ── */
     function populateClassSelect() {
       const classSelect = document.getElementById('classSelect');
       const classes = [...new Set(scheduleRows.map(row => row.className))];
-      classSelect.innerHTML = classes.map(name => `<option value="${escapeHtml(name)}">${escapeHtml(name)}</option>`).join('');
+      classSelect.innerHTML = classes
+        .map(name => `<option value="${escapeHtml(name)}">${escapeHtml(name)}</option>`)
+        .join('');
       if (classes.includes(lastSelectedClass)) classSelect.value = lastSelectedClass;
       else if (classes.length) classSelect.value = classes[0];
     }
@@ -738,23 +776,50 @@
     function populateRoundSelect(selectedClass) {
       const roundSelect = document.getElementById('roundSelect');
       const rows = scheduleRows.filter(row => row.className === selectedClass);
-      roundSelect.innerHTML = rows.map(row => `<option value="${escapeHtml(row.roundLabel)}">${escapeHtml(row.roundLabel)}</option>`).join('');
+      roundSelect.innerHTML = rows
+        .map(row => `<option value="${escapeHtml(row.roundLabel)}">${escapeHtml(row.roundDisplay)}</option>`)
+        .join('');
       if (rows.some(row => row.roundLabel === lastSelectedRound)) roundSelect.value = lastSelectedRound;
       else if (rows.length) roundSelect.value = rows[0].roundLabel;
     }
 
     function getSelectedSchedule() {
-      const className = document.getElementById('classSelect').value;
+      const className  = document.getElementById('classSelect').value;
       const roundLabel = document.getElementById('roundSelect').value;
       return scheduleRows.find(row => row.className === className && row.roundLabel === roundLabel) || null;
     }
 
+    /* ── 수정 5: renderHeader — 답지일 때 info-box 대신 notice-box ──
+       info-box의 회차는 roundLabel(숫자만)으로 표시 */
     function renderHeader(meta, answerMode) {
+      const rightBox = answerMode
+        ? `<div class="notice-box">
+             <div class="notice-box-text">불규칙은 전부 다 써야<br>정답처리해주세요</div>
+           </div>`
+        : `<div class="info-box">
+             <table>
+               <tbody>
+                 <tr>
+                   <td class="center">${escapeHtml(meta.className)}</td>
+                   <td class="center">${escapeHtml(meta.roundLabel)}</td>
+                 </tr>
+                 <tr><td class="center">Name</td><td></td></tr>
+                 <tr><td class="center">Score</td><td class="center">_______ / 25</td></tr>
+               </tbody>
+             </table>
+           </div>`;
+
+      /* ── 수정 6: meta-line에 NEXT 정보 추가 ── */
+      const nextInfo = (meta.nextDate || meta.nextDayLabel)
+        ? `NEXT: ${[meta.nextDate, meta.nextDayLabel].filter(Boolean).join(' - ')}`
+        : '';
+
       return `
         <div class="ticket-header">
           <div class="brand-box">
             <div class="brand-left">
-              <img class="logo-image" src="./logo.png" alt="CANB English logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+              <img class="logo-image" src="./logo.png" alt="CANB English logo"
+                onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
               <div class="logo-fallback">
                 <div class="logo">CANB</div>
                 <div class="logo-sub">CANB English</div>
@@ -765,34 +830,49 @@
               <div class="title ${answerMode ? 'answer' : ''}">${answerMode ? 'Answer Key' : 'Vocab Test'}</div>
             </div>
           </div>
-          <div class="info-box">
-            <table>
-              <tbody>
-                <tr><td class="center">${escapeHtml(meta.className)}</td><td class="center">${escapeHtml(meta.roundDisplay || meta.roundLabel)}</td></tr>
-                <tr><td class="center">Name</td><td></td></tr>
-                <tr><td class="center">Score</td><td class="center">_______ / 25</td></tr>
-              </tbody>
-            </table>
-          </div>
+          ${rightBox}
         </div>
-        <div class="meta-line">${escapeHtml(meta.testDate)} · ${escapeHtml(meta.dayLabel)}</div>
+        <div class="meta-line">
+          <span class="meta-left">${escapeHtml(meta.testDate)} · ${escapeHtml(meta.dayLabel)}</span>
+          ${nextInfo ? `<span class="meta-right">${escapeHtml(nextInfo)}</span>` : ''}
+        </div>
       `;
     }
 
+    /* ── 수정 7: renderMainTable — 답지 prompt/answer 표시 개선 ──
+       답지: prompt에 모든 뜻(한국어 여러 개) 표시, answer에 영어 볼드
+       문제지: prompt에 뜻 또는 영어, answer 칸 비움 */
     function renderMainTable(questionSet, answerMode) {
       const rows = [
         ...questionSet.english.map(item => ({ type: 'meaning', ...item })),
-        ...questionSet.korean.map(item => ({ type: 'word', ...item }))
+        ...questionSet.korean.map(item => ({ type: 'word',    ...item }))
       ];
 
       const body = rows.map((item, idx) => {
-        const prompt = item.type === 'meaning' ? item.meaning : item.word;
-        const answer = item.type === 'meaning' ? item.word : shortMeaning(item.meaning);
+        let prompt, answer;
+
+        if (answerMode) {
+          /* 답지 */
+          if (item.type === 'meaning') {
+            /* 한국어 → 영어: prompt=한국어 여러 뜻, answer=영어 단어 */
+            prompt = shortMeaning(item.meaning);
+            answer = escapeHtml(item.word);
+          } else {
+            /* 영어 → 한국어: prompt=영어 단어, answer=한국어 뜻(들) */
+            prompt = item.word;
+            answer = escapeHtml(shortMeaning(item.meaning));
+          }
+        } else {
+          /* 문제지 */
+          prompt = item.type === 'meaning' ? item.meaning : item.word;
+          answer = '';
+        }
+
         return `
           <tr>
             <td class="num">${idx + 1}</td>
-            <td class="prompt">${escapeHtml(prompt)}</td>
-            <td class="answer-cell ${answerMode ? 'answer' : 'question'}">${answerMode ? escapeHtml(answer) : ''}</td>
+            <td class="prompt">${escapeHtml(String(prompt))}</td>
+            <td class="answer-cell ${answerMode ? 'answer-show' : 'question'}">${answer}</td>
             <td class="code">${escapeHtml(item.code)}</td>
           </tr>
         `;
@@ -811,14 +891,16 @@
       `;
     }
 
+    /* ── 수정 8: renderIrregularTable — 답지 답 칸 볼드 클래스 적용 ── */
     function renderIrregularTable(rows, answerMode) {
+      const ansClass = answerMode ? 'irr-ans' : '';
       const body = rows.map((item, idx) => `
         <tr>
           <td class="num">${21 + idx}</td>
           <td>${escapeHtml(item.meaning)}</td>
           <td>${escapeHtml(item.base)}</td>
-          <td>${answerMode ? escapeHtml(item.past) : ''}</td>
-          <td>${answerMode ? escapeHtml(item.pp) : ''}</td>
+          <td class="${ansClass}">${answerMode ? escapeHtml(item.past) : ''}</td>
+          <td class="${ansClass}">${answerMode ? escapeHtml(item.pp)   : ''}</td>
         </tr>
       `).join('');
 
@@ -841,7 +923,6 @@
         <div class="ticket ${answerMode === null ? 'blank' : ''}">
           ${answerMode === null ? '<div class="blank-fill"></div>' : `
             ${renderHeader(meta, answerMode)}
-            ${answerMode ? '<div class="answer-notice"><table><tbody><tr><td>불규칙은 전부 다 써야<br>정답처리해주세요</td></tr></tbody></table></div>' : ''}
             <div class="main-table">${renderMainTable(questionSet, answerMode)}</div>
             <div class="section-label">&lt;동사 3단 변화&gt;</div>
             <div class="irregular-table">${renderIrregularTable(irregularSet, answerMode)}</div>
@@ -864,7 +945,8 @@
     }
 
     function updateStatus(schedule, questionSet, irregularSet, pagesData) {
-      document.getElementById('statusText').innerHTML = `${escapeHtml(schedule.bookName)}<br>${questionSet.total}단어 · 불규칙 ${irregularSet.length}개 · ${pagesData.length}장`;
+      document.getElementById('statusText').innerHTML =
+        `${escapeHtml(schedule.bookName)}<br>${questionSet.total}단어 · 불규칙 ${irregularSet.length}개 · ${pagesData.length}장`;
     }
 
     function generate(options = {}) {
@@ -875,8 +957,10 @@
         lastSelectedRound = '';
       }
 
+      /* ── 수정 9: populate 순서 보장 ── */
       populateClassSelect();
-      populateRoundSelect(document.getElementById('classSelect').value);
+      const currentClass = document.getElementById('classSelect').value;
+      populateRoundSelect(currentClass);
 
       const schedule = getSelectedSchedule();
       if (!schedule) return;
@@ -885,6 +969,7 @@
       lastSelectedRound = schedule.roundLabel;
 
       const filteredVocab = getFilteredVocab(vocabRows, schedule);
+
       if (!cachedQuestionSet || options.reshuffle || options.forceRebuild || options.classChanged || options.roundChanged) {
         cachedQuestionSet = buildQuestionSet(filteredVocab);
       }
@@ -892,29 +977,31 @@
         cachedIrregularSet = buildIrregularSet(irregularRows, schedule.roundLabel);
       }
 
-      const questionSet = cachedQuestionSet;
+      const questionSet  = cachedQuestionSet;
       const irregularSet = cachedIrregularSet;
       const meta = {
-        term: document.getElementById('termSelect').value,
-        className: schedule.className,
-        roundLabel: schedule.roundLabel,
+        term:         document.getElementById('termSelect').value,
+        className:    schedule.className,
+        roundLabel:   schedule.roundLabel,
         roundDisplay: schedule.roundDisplay,
-        testDate: schedule.testDate,
-        dayLabel: schedule.dayLabel
+        testDate:     schedule.testDate,
+        dayLabel:     schedule.dayLabel,
+        nextDate:     schedule.nextDate,     // 추가
+        nextDayLabel: schedule.nextDayLabel  // 추가
       };
 
-      const copyCount = Number(document.getElementById('copyCount').value || 1);
+      const copyCount    = Number(document.getElementById('copyCount').value || 1);
       const includeAnswer = document.getElementById('includeAnswer').checked;
-      const slots = buildSlots(copyCount, includeAnswer);
-      const pagesData = chunk(slots, 2);
+      const slots        = buildSlots(copyCount, includeAnswer);
+      const pagesData    = chunk(slots, 2);
 
       const html = pagesData.map(pair => {
-        const leftType = pair[0] || 'blank';
+        const leftType  = pair[0] || 'blank';
         const rightType = pair[1] || 'blank';
         return `
           <section class="print-page">
             <div class="page-inner">
-              ${renderTicket(meta, questionSet, irregularSet, leftType === 'question' ? false : leftType === 'answer' ? true : null)}
+              ${renderTicket(meta, questionSet, irregularSet, leftType  === 'question' ? false : leftType  === 'answer' ? true : null)}
               ${renderTicket(meta, questionSet, irregularSet, rightType === 'question' ? false : rightType === 'answer' ? true : null)}
             </div>
           </section>
@@ -937,11 +1024,11 @@
         generate({ roundChanged: true });
       });
 
-      document.getElementById('copyCount').addEventListener('change', () => generate());
+      document.getElementById('copyCount').addEventListener('change',   () => generate());
       document.getElementById('includeAnswer').addEventListener('change', () => generate());
-      document.getElementById('termSelect').addEventListener('change', () => generate());
-      document.getElementById('shuffleBtn').addEventListener('click', () => generate({ reshuffle: true, forceRebuild: true }));
-      document.getElementById('printBtn').addEventListener('click', () => window.print());
+      document.getElementById('termSelect').addEventListener('change',   () => generate());
+      document.getElementById('shuffleBtn').addEventListener('click',    () => generate({ reshuffle: true, forceRebuild: true }));
+      document.getElementById('printBtn').addEventListener('click',      () => window.print());
     }
 
     async function init() {
@@ -950,7 +1037,8 @@
         bindEvents();
         generate({ forceRebuild: true, resetClass: true });
       } catch (error) {
-        document.getElementById('pages').innerHTML = '<div style="padding:24px;font-size:18px;font-weight:700;">데이터 파일을 불러오지 못했습니다.</div>';
+        document.getElementById('pages').innerHTML =
+          '<div style="padding:24px;font-size:18px;font-weight:700;">데이터 파일을 불러오지 못했습니다.</div>';
         document.getElementById('statusText').textContent = error.message;
       }
     }
