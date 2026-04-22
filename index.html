@@ -17,7 +17,7 @@
     html, body {
       margin: 0;
       padding: 0;
-      font-family: Arial, "Noto Sans KR", sans-serif;
+      font-family: "Noto Sans KR";
       color: #111;
       background: var(--screen-bg);
     }
@@ -379,12 +379,13 @@
       height: 5.5mm;
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-end;
       font-size: 3mm;
       font-weight: 700;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      padding-right: 2mm;
       flex: 0 0 auto;
     }
 
@@ -439,6 +440,12 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    .main-table td.prompt,
+    .main-table td.answer-cell {
+      border-top: 0;
+      border-bottom: 0;
     }
 
     .main-table td.code {
@@ -874,7 +881,7 @@ become	~가 되다	became	become</textarea>
     }
 
     function renderIrregularTable(irregularRows, answerMode) {
-      const rows = irregularRows.slice(0, 5);
+      const rows = irregularRows;
       const body = rows.map((item, idx) => `
         <tr>
           <td class="num">${21 + idx}</td>
@@ -946,6 +953,7 @@ become	~가 되다	became	become</textarea>
     let lastSelectedClass = '';
     let lastSelectedRound = '';
     let cachedQuestionSet = null;
+    let cachedIrregularSet = null;
 
     function generate(options = {}) {
       const reshuffle = Boolean(options.reshuffle);
@@ -968,8 +976,12 @@ become	~가 되다	became	become</textarea>
       if (!cachedQuestionSet || reshuffle || options.selectedClass || options.selectedRound || options.forceRebuild) {
         cachedQuestionSet = buildQuestionSet(filteredVocab);
       }
+      if (!cachedIrregularSet || reshuffle || options.selectedClass || options.selectedRound || options.forceRebuild) {
+        cachedIrregularSet = shuffle(irregularRows).slice(0, 5);
+      }
 
       const questionSet = cachedQuestionSet;
+      const irregularSet = cachedIrregularSet;
       const meta = {
         term: termValue,
         className: schedule.className,
@@ -986,8 +998,8 @@ become	~가 되다	became	become</textarea>
         return `
           <section class="print-page">
             <div class="page-inner">
-              ${renderTicket(meta, questionSet, irregularRows, leftType === 'question' ? false : leftType === 'answer' ? true : null)}
-              ${renderTicket(meta, questionSet, irregularRows, rightType === 'question' ? false : rightType === 'answer' ? true : null)}
+              ${renderTicket(meta, questionSet, irregularSet, leftType === 'question' ? false : leftType === 'answer' ? true : null)}
+              ${renderTicket(meta, questionSet, irregularSet, rightType === 'question' ? false : rightType === 'answer' ? true : null)}
             </div>
           </section>
         `;
