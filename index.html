@@ -586,11 +586,28 @@
     }
 
     function parseDayList(dayLabel) {
-      return String(dayLabel)
-        .split(',')
-        .map(x => x.trim())
-        .filter(Boolean);
+  const raw = String(dayLabel)
+    .split(',')
+    .map(x => x.trim())
+    .filter(Boolean);
+
+  let prefix = 'Day';
+
+  return raw.map(token => {
+    const full = token.match(/^(Day)\s*(\d+)$/i);
+    if (full) {
+      prefix = full[1];
+      return full[1] + ' ' + full[2];
     }
+
+    const onlyNumber = token.match(/^\d+$/);
+    if (onlyNumber) {
+      return prefix + ' ' + onlyNumber[0];
+    }
+
+    return token;
+  });
+}
 
     function parseVocabTSV(text) {
       return text
@@ -612,22 +629,38 @@
     }
 
     function parseScheduleTSV(text) {
-      return text
-        .split(/\r?\n/)
-        .map(line => line.trim())
-        .filter(Boolean)
-        .map(line => {
-          const cols = line.split('\t');
-          return {
-            className: cols[0] || '',
-            roundLabel: cols[1] || '',
-            testDate: cols[2] || '',
-            dayLabel: cols[3] || '',
-            bookName: cols[4] || ''
-          };
-        })
-        .filter(row => row.className && row.roundLabel);
-    }
+  const rows = text
+    .split(/\r?\n/)
+    .map(line => line.trim())
+    .filter(Boolean)
+    .map(line => {
+      const cols = line.split('\t');
+      return {
+        className: cols[0] || '',
+        testDate: cols[1] || '',
+        dayLabel: cols[2] || '',
+        bookName: cols[3] || ''
+      };
+    })
+    .filter(row => row.className && row.testDate && row.dayLabel);
+
+  const counters = new Map();
+
+  return rows.map(row => {
+    const key = row.className + '||' + row.bookName;
+    const round = (counters.get(key) || 0) + 1;
+    counters.set(key, round);
+
+    return {
+      className: row.className,
+      roundLabel: String(round),
+      roundDisplay: String(round) + '회',
+      testDate: row.testDate,
+      dayLabel: row.dayLabel,
+      bookName: row.bookName
+    };
+  });
+}
 
     function parseIrregularTSV(text) {
       return text
@@ -678,13 +711,15 @@
     }
 
     function getFilteredVocab(allRows, schedule) {
-      const daySet = new Set(parseDayList(schedule.dayLabel));
-      return allRows.filter(row => {
-        const sameBook = !schedule.bookName || row.book === schedule.bookName;
-        const sameDay = daySet.size === 0 || daySet.has(row.day);
-        return sameBook && sameDay;
-      });
-    }
+  const daySet = new Set(parseDayList(schedule.dayLabel));
+  const targetBook = String(schedule.bookName || '').trim();
+
+  return allRows.filter(row => {
+    const sameBook = !targetBook || String(row.book || '').trim() === targetBook;
+    const sameDay = daySet.size === 0 || daySet.has(String(row.day || '').trim());
+    return sameBook && sameDay;
+  });
+}
 
     function buildQuestionSet(rows) {
       const unique = shuffle(dedupeWords(rows));
@@ -751,7 +786,7 @@
           <div class="info-box">
             <table>
               <tbody>
-                <tr><td class="center">${escapeHtml(meta.className)}</td><td class="center">${escapeHtml(meta.roundLabel)}</td></tr>
+                <tr><td class="center">${escapeHtml(meta.className)}</td><td class="center">${escapeHtml(meta.roundDisplay || meta.roundLabel)}</td></tr>
                 <tr><td class="center">Name</td><td></td></tr>
                 <tr><td class="center">Score</td><td class="center">_______ / 25</td></tr>
               </tbody>
@@ -882,12 +917,13 @@
       const questionSet = cachedQuestionSet;
       const irregularSet = cachedIrregularSet;
       const meta = {
-        term: document.getElementById('termSelect').value,
-        className: schedule.className,
-        roundLabel: schedule.roundLabel,
-        testDate: schedule.testDate,
-        dayLabel: schedule.dayLabel
-      };
+  term: document.getElementById('termSelect').value,
+  className: schedule.className,
+  roundLabel: schedule.roundLabel,
+  roundDisplay: schedule.roundDisplay,
+  testDate: schedule.testDate,
+  dayLabel: schedule.dayLabel
+};
 
       const copyCount = Number(document.getElementById('copyCount').value || 1);
       const includeAnswer = document.getElementById('includeAnswer').checked;
