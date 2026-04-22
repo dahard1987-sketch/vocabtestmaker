@@ -1,0 +1,1023 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CANB Vocab Test Print</title>
+  <style>
+    :root {
+      --line: #222;
+      --screen-bg: #eef1f4;
+      --panel-bg: #ffffff;
+      --brand: #c2187a;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, "Noto Sans KR", sans-serif;
+      color: #111;
+      background: var(--screen-bg);
+    }
+
+    body { min-width: 1320px; }
+
+    .app {
+      max-width: 1700px;
+      margin: 0 auto;
+      padding: 18px;
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel {
+      background: var(--panel-bg);
+      border: 1px solid #d7dde3;
+      border-radius: 18px;
+      padding: 16px;
+      box-shadow: 0 10px 28px rgba(0,0,0,0.06);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: 24px;
+    }
+
+    .muted {
+      color: #666;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .field { margin-top: 12px; }
+
+    .field label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .field textarea,
+    .field select {
+      width: 100%;
+      font: inherit;
+      background: #fff;
+      border: 1px solid #b8c0c8;
+      border-radius: 10px;
+    }
+
+    .field textarea {
+      min-height: 130px;
+      resize: vertical;
+      line-height: 1.45;
+      padding: 10px 12px;
+    }
+
+    .field select {
+      height: 40px;
+      padding: 0 10px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .field-row .field { margin-top: 0; }
+
+    .checkbox-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 40px;
+      padding: 0 4px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    button {
+      border: 0;
+      background: #111;
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 10px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    button.secondary { background: #666; }
+
+    .status-box {
+      margin-top: 12px;
+      padding: 12px 13px;
+      border-radius: 12px;
+      background: #f6f7f8;
+      font-size: 12px;
+      color: #555;
+      line-height: 1.6;
+    }
+
+    .preview-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      gap: 12px;
+      margin-bottom: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #d8dde2;
+      flex-wrap: wrap;
+    }
+
+    .preview-controls .toolbar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: end;
+    }
+
+    .preview-controls .toolbar-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .preview-controls .toolbar-group label {
+      font-size: 11px;
+      color: #555;
+      font-weight: 700;
+    }
+
+    .preview-controls select {
+      min-width: 88px;
+      height: 36px;
+      padding: 0 10px;
+      border: 1px solid #aab1b9;
+      border-radius: 9px;
+      background: #fff;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .preview-meta {
+      text-align: right;
+      font-size: 12px;
+      color: #666;
+      line-height: 1.35;
+      white-space: nowrap;
+    }
+
+    .preview-wrap {
+      overflow: auto;
+      padding: 2px 0 10px;
+      max-height: calc(100vh - 40px);
+    }
+
+    .pages {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .print-page {
+      width: 297mm;
+      height: 210mm;
+      background: #fff;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.12);
+      position: relative;
+      overflow: hidden;
+      padding: 7mm 8mm;
+      flex: 0 0 auto;
+    }
+
+    .print-page::after {
+      content: "";
+      position: absolute;
+      top: 6mm;
+      bottom: 6mm;
+      left: 50%;
+      border-left: 1px dashed #a4a4a4;
+      pointer-events: none;
+    }
+
+    .page-inner {
+      display: grid;
+      grid-template-columns: 136.5mm 136.5mm;
+      gap: 8mm;
+      height: 100%;
+      justify-content: center;
+    }
+
+    .ticket {
+      width: 136.5mm;
+      height: 196mm;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    .ticket.blank { border: 0; }
+
+    .ticket-header {
+      display: grid;
+      grid-template-columns: 96mm 40.5mm;
+      height: 24mm;
+      flex: 0 0 auto;
+    }
+
+    .brand-box,
+    .info-box,
+    .answer-notice,
+    .main-table,
+    .irregular-table {
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .brand-box {
+      display: grid;
+      grid-template-columns: 40mm 56mm;
+      height: 24mm;
+      overflow: hidden;
+    }
+
+    .brand-left {
+      border-right: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1mm;
+      overflow: hidden;
+    }
+
+    .logo-image {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    .logo-fallback {
+      width: 100%;
+      height: 100%;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .logo {
+      color: var(--brand);
+      font-weight: 900;
+      font-size: 14mm;
+      line-height: 0.9;
+      letter-spacing: -0.8mm;
+      white-space: nowrap;
+      transform: scaleX(0.94);
+    }
+
+    .logo-sub {
+      font-size: 3.4mm;
+      font-weight: 700;
+      color: #444;
+      margin-top: 0.6mm;
+      white-space: nowrap;
+    }
+
+    .title-area {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 1.2mm 1.2mm 0.8mm;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .term {
+      font-size: 6mm;
+      font-weight: 800;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .title {
+      margin-top: 1.4mm;
+      font-size: 8.3mm;
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -0.08mm;
+      white-space: nowrap;
+    }
+
+    .title.answer {
+      background: #000;
+      color: #fff;
+      padding: 0.8mm 1.6mm 1mm;
+      display: inline-block;
+    }
+
+    .info-box {
+      height: 24mm;
+      overflow: hidden;
+    }
+
+    .info-box table,
+    .main-table table,
+    .irregular-table table,
+    .answer-notice table {
+      width: 100%;
+      height: 100%;
+      border-collapse: collapse;
+      table-layout: fixed;
+    }
+
+    .info-box td,
+    .main-table td,
+    .irregular-table td,
+    .answer-notice td {
+      border: 1px solid var(--line);
+      vertical-align: middle;
+    }
+
+    .info-box td {
+      height: 7.7mm;
+      padding: 0 1.4mm;
+      font-size: 3.8mm;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .center { text-align: center; }
+
+    .meta-line {
+      height: 5.5mm;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3mm;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      flex: 0 0 auto;
+    }
+
+    .answer-notice {
+      height: 14mm;
+      margin-bottom: 1.4mm;
+      flex: 0 0 auto;
+      overflow: hidden;
+    }
+
+    .answer-notice td {
+      background: #000;
+      color: #fff;
+      text-align: center;
+      font-size: 4.3mm;
+      font-weight: 900;
+      line-height: 1.1;
+      padding: 1.3mm;
+    }
+
+    .main-table {
+      height: 130mm;
+      overflow: hidden;
+      flex: 0 0 auto;
+    }
+
+    .main-table table { height: 100%; }
+
+    .main-table col.num { width: 8mm; }
+    .main-table col.prompt { width: 84mm; }
+    .main-table col.answer { width: 33mm; }
+    .main-table col.code { width: 11.5mm; }
+
+    .main-table td,
+    .irregular-table td {
+      padding: 0.5mm 1mm;
+      font-size: 3.2mm;
+      line-height: 1.1;
+      overflow: hidden;
+    }
+
+    .main-table td.num,
+    .irregular-table td.num {
+      text-align: center;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .main-table td.prompt,
+    .main-table td.answer-cell,
+    .main-table td.code {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .main-table td.code {
+      text-align: right;
+      font-size: 2.9mm;
+      font-weight: 700;
+      padding-right: 1mm;
+    }
+
+    .main-table tr { height: 6.5mm; }
+
+    .section-label {
+      height: 5mm;
+      display: flex;
+      align-items: center;
+      font-size: 3.15mm;
+      font-weight: 800;
+      white-space: nowrap;
+      flex: 0 0 auto;
+    }
+
+    .irregular-table {
+      height: 35mm;
+      overflow: hidden;
+      flex: 0 0 auto;
+    }
+
+    .irregular-table col.num { width: 8mm; }
+    .irregular-table col.meaning { width: 34mm; }
+    .irregular-table col.base { width: 28mm; }
+    .irregular-table col.past { width: 33mm; }
+    .irregular-table col.pp { width: 33mm; }
+
+    .irregular-table tr { height: 7mm; }
+
+    .blank-fill { width: 100%; height: 100%; }
+
+    @page {
+      size: A4 landscape;
+      margin: 0;
+    }
+
+    @media print {
+      html, body {
+        width: 297mm;
+        background: #fff;
+        min-width: 0;
+      }
+
+      .app {
+        display: block;
+        max-width: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .panel.controls-panel,
+      .preview-controls {
+        display: none !important;
+      }
+
+      .panel.preview-panel {
+        border: 0;
+        border-radius: 0;
+        padding: 0;
+        box-shadow: none;
+        background: #fff;
+      }
+
+      .preview-wrap {
+        overflow: visible;
+        max-height: none;
+        padding: 0;
+      }
+
+      .pages { display: block; }
+
+      .print-page {
+        width: 297mm;
+        height: 210mm;
+        margin: 0;
+        box-shadow: none;
+        page-break-after: always;
+        break-after: page;
+      }
+
+      .print-page:last-child {
+        page-break-after: auto;
+        break-after: auto;
+      }
+
+      .print-page::after {
+        top: 0;
+        bottom: 0;
+      }
+
+      .ticket,
+      .ticket-header,
+      .brand-box,
+      .info-box,
+      .main-table,
+      .irregular-table,
+      .answer-notice,
+      .meta-line,
+      .section-label,
+      .main-table table,
+      .irregular-table table,
+      .main-table tr,
+      .irregular-table tr {
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="panel controls-panel">
+      <h1>단어 시험지 인쇄용</h1>
+      <div class="muted">
+        A4 가로 한 장에 A5 세로 시험지 2장이 들어가는 구조입니다.<br>
+        로고는 같은 폴더의 <code>logo.png</code>를 자동으로 불러옵니다.
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="studentCount">문제지 수</label>
+          <select id="studentCount"></select>
+        </div>
+        <div class="field">
+          <label>답지 포함</label>
+          <div class="checkbox-wrap">
+            <input type="checkbox" id="includeAnswer" checked />
+            <span>마지막 칸에 답지 넣기</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="vocabData">단어 데이터 (탭 구분: Day / 단어 / 뜻 / 구분 / 단어장 / 번호)</label>
+        <textarea id="vocabData">Day 1	concentrate	집중하다	표제어	Voca Planner 중등 심화	0006
+Day 1	assignment	과제	표제어	Voca Planner 중등 심화	0007
+Day 1	submit	제출하다	표제어	Voca Planner 중등 심화	0008
+Day 1	term	용어, 학기	표제어	Voca Planner 중등 심화	0009
+Day 1	attend	참석하다, (~에) 다니다	표제어	Voca Planner 중등 심화	0010
+Day 1	absence	결석, 결근	표제어	Voca Planner 중등 심화	0011
+Day 1	principal	교장; 주요한, 주된	표제어	Voca Planner 중등 심화	0012
+Day 1	pupil	학생	표제어	Voca Planner 중등 심화	0013
+Day 1	influence	영향을 주다[미치다]; 영향	표제어	Voca Planner 중등 심화	0014
+Day 1	scholarship	장학금	표제어	Voca Planner 중등 심화	0015
+Day 1	graduate	졸업하다; 졸업생	표제어	Voca Planner 중등 심화	0016
+Day 1	auditorium	강당	표제어	Voca Planner 중등 심화	0017
+Day 1	cafeteria	구내식당	표제어	Voca Planner 중등 심화	0018
+Day 1	gym	체육관	표제어	Voca Planner 중등 심화	0019
+Day 1	dormitory	기숙사	표제어	Voca Planner 중등 심화	0020
+Day 2	workplace	직장	표제어	Voca Planner 중등 심화	0021
+Day 2	salary	급여	표제어	Voca Planner 중등 심화	0022
+Day 2	commute	통근하다	표제어	Voca Planner 중등 심화	0023
+Day 2	overtime	초과근무	표제어	Voca Planner 중등 심화	0024
+Day 2	resign	사임하다, 그만두다	표제어	Voca Planner 중등 심화	0025
+Day 31	universe	우주	표제어	Voca Planner 중등 심화	0601
+Day 31	galaxy	은하계	표제어	Voca Planner 중등 심화	0602
+Day 31	process	과정; 처리하다	표제어	Voca Planner 중등 심화	0603
+Day 31	footprint	발자국	표제어	Voca Planner 중등 심화	0604
+Day 31	artificial	인공의	표제어	Voca Planner 중등 심화	0605
+Day 31	explore	탐사[탐험]하다	표제어	Voca Planner 중등 심화	0606
+Day 31	gravity	중력	표제어	Voca Planner 중등 심화	0607
+Day 31	lunar	달의	표제어	Voca Planner 중등 심화	0608
+Day 31	solar system	태양계	표제어	Voca Planner 중등 심화	0609
+Day 32	progress	진전; 진전을 보이다	표제어	Voca Planner 중등 심화	0610
+Day 32	virtual	가상의	표제어	Voca Planner 중등 심화	0611
+Day 32	advance	발전; 진보하다, 증진되다	표제어	Voca Planner 중등 심화	0612
+Day 32	technician	기술자	표제어	Voca Planner 중등 심화	0613
+Day 32	research	연구; 조사하다	표제어	Voca Planner 중등 심화	0614
+Day 32	satellite	위성	표제어	Voca Planner 중등 심화	0615
+Day 32	database	데이터베이스	표제어	Voca Planner 중등 심화	0616
+Day 32	astronomer	천문학자	표제어	Voca Planner 중등 심화	0617
+Day 32	convenient	편리한	표제어	Voca Planner 중등 심화	0618
+Day 32	precise	정확한, 정밀한	표제어	Voca Planner 중등 심화	0619
+Day 32	improve	개선되다, 향상시키다	표제어	Voca Planner 중등 심화	0620</textarea>
+      </div>
+
+      <div class="field">
+        <label for="scheduleData">시험 일정 데이터 (탭 구분: 반 / 회차 / 시험일표시 / Day표시 / 단어장)</label>
+        <textarea id="scheduleData">X2 2D	13	4/21(화)	Day 31, 32	Voca Planner 중등 심화
+X2 2D	14	4/28(화)	Day 1, 2	Voca Planner 중등 심화
+X2 2A	13	4/21(화)	Day 31, 32	Voca Planner 중등 심화
+X2 2A	14	4/28(화)	Day 1, 2	Voca Planner 중등 심화</textarea>
+      </div>
+
+      <div class="field">
+        <label for="irregularData">불규칙동사 데이터 (탭 구분: 기본형 / 뜻 / 과거형 / p.p.)</label>
+        <textarea id="irregularData">light	불붙이다	lit	lit
+mean	의미하다	meant	meant
+fry	튀기다	fried	fried
+let	허락하다	let	let
+become	~가 되다	became	become</textarea>
+      </div>
+
+      <div class="actions">
+        <button id="shuffleBtn">랜덤 재생성</button>
+        <button id="printBtn" class="secondary">인쇄</button>
+      </div>
+
+      <div class="status-box" id="statusBox"></div>
+    </div>
+
+    <div class="panel preview-panel">
+      <div class="preview-controls">
+        <div class="toolbar" id="previewToolbar"></div>
+        <div class="preview-meta" id="previewMeta"></div>
+      </div>
+      <div class="preview-wrap">
+        <div class="pages" id="pages"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function fillStudentCount() {
+      const select = document.getElementById('studentCount');
+      let html = '';
+      for (let i = 1; i <= 12; i += 1) {
+        html += `<option value="${i}">${i}매</option>`;
+      }
+      select.innerHTML = html;
+      select.value = '6';
+    }
+
+    function parseVocabTSV(text) {
+      return text
+        .split(/\r?\n/)
+        .map(line => line.trim())
+        .filter(Boolean)
+        .map(line => {
+          const cols = line.split('\t');
+          return {
+            day: cols[0] || '',
+            word: cols[1] || '',
+            meaning: cols[2] || '',
+            kind: cols[3] || '',
+            book: cols[4] || '',
+            code: cols[5] || ''
+          };
+        })
+        .filter(row => row.day && row.word && row.meaning);
+    }
+
+    function parseScheduleTSV(text) {
+      return text
+        .split(/\r?\n/)
+        .map(line => line.trim())
+        .filter(Boolean)
+        .map(line => {
+          const cols = line.split('\t');
+          return {
+            className: cols[0] || '',
+            roundLabel: cols[1] || '',
+            testDate: cols[2] || '',
+            dayLabel: cols[3] || '',
+            bookName: cols[4] || ''
+          };
+        })
+        .filter(row => row.className && row.roundLabel);
+    }
+
+    function parseIrregularTSV(text) {
+      return text
+        .split(/\r?\n/)
+        .map(line => line.trim())
+        .filter(Boolean)
+        .map(line => {
+          const cols = line.split('\t');
+          return {
+            base: cols[0] || '',
+            meaning: cols[1] || '',
+            past: cols[2] || '',
+            pp: cols[3] || ''
+          };
+        })
+        .filter(row => row.base);
+    }
+
+    function escapeHtml(text) {
+      return String(text ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function shuffle(array) {
+      const arr = [...array];
+      for (let i = arr.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function shortMeaning(text) {
+      return String(text)
+        .split(/\s*[;,]\s*/)
+        .map(x => x.trim())
+        .filter(Boolean)
+        .slice(0, 3)
+        .join(', ');
+    }
+
+    function parseDayList(dayLabel) {
+      return String(dayLabel)
+        .split(',')
+        .map(x => x.trim())
+        .filter(Boolean);
+    }
+
+    function dedupeWords(rows) {
+      const seen = new Set();
+      return rows.filter(row => {
+        const key = `${row.word.toLowerCase()}__${row.code}`;
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      });
+    }
+
+    function getFilteredVocab(allRows, schedule) {
+      const daySet = new Set(parseDayList(schedule.dayLabel));
+      return allRows.filter(row => {
+        const sameBook = !schedule.bookName || row.book === schedule.bookName;
+        const sameDay = daySet.size === 0 || daySet.has(row.day);
+        return sameBook && sameDay;
+      });
+    }
+
+    function buildQuestionSet(vocabRows) {
+      const unique = shuffle(dedupeWords(vocabRows));
+      const usable = unique.slice(0, 20);
+      return {
+        english: usable.slice(0, 17),
+        korean: usable.slice(17, 20),
+        total: unique.length
+      };
+    }
+
+    function renderPreviewToolbar(scheduleRows, termValue, selectedClass, selectedRound) {
+      const classOptions = [...new Set(scheduleRows.map(row => row.className))]
+        .map(name => `<option value="${escapeHtml(name)}" ${name === selectedClass ? 'selected' : ''}>${escapeHtml(name)}</option>`)
+        .join('');
+
+      const roundOptions = scheduleRows
+        .filter(row => row.className === selectedClass)
+        .map(row => `<option value="${escapeHtml(row.roundLabel)}" ${row.roundLabel === selectedRound ? 'selected' : ''}>${escapeHtml(row.roundLabel)}</option>`)
+        .join('');
+
+      return `
+        <div class="toolbar-group">
+          <label for="termSelect">학기명</label>
+          <select id="termSelect"><option value="${escapeHtml(termValue)}" selected>${escapeHtml(termValue)}</option></select>
+        </div>
+        <div class="toolbar-group">
+          <label for="classSelect">반</label>
+          <select id="classSelect">${classOptions}</select>
+        </div>
+        <div class="toolbar-group">
+          <label for="roundSelect">회차</label>
+          <select id="roundSelect">${roundOptions}</select>
+        </div>
+      `;
+    }
+
+    function renderHeader(meta, answerMode) {
+      return `
+        <div class="ticket-header">
+          <div class="brand-box">
+            <div class="brand-left">
+              <img class="logo-image" src="./logo.png" alt="CANB English logo" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+              <div class="logo-fallback">
+                <div class="logo">CANB</div>
+                <div class="logo-sub">CANB English</div>
+              </div>
+            </div>
+            <div class="title-area">
+              <div class="term">${escapeHtml(meta.term)}</div>
+              <div class="title ${answerMode ? 'answer' : ''}">${answerMode ? 'Answer Key' : 'Vocab Test'}</div>
+            </div>
+          </div>
+          <div class="info-box">
+            <table>
+              <tbody>
+                <tr><td class="center">${escapeHtml(meta.className)}</td><td class="center">${escapeHtml(meta.roundLabel)}</td></tr>
+                <tr><td class="center">Name</td><td></td></tr>
+                <tr><td class="center">Score</td><td class="center">_______ / 25</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="meta-line">${escapeHtml(meta.testDate)} · ${escapeHtml(meta.dayLabel)}</div>
+      `;
+    }
+
+    function renderMainTable(questionSet, answerMode) {
+      const rows = [
+        ...questionSet.english.map(item => ({ type: 'meaning', ...item })),
+        ...questionSet.korean.map(item => ({ type: 'word', ...item }))
+      ];
+
+      const body = rows.map((item, idx) => {
+        const prompt = item.type === 'meaning' ? item.meaning : item.word;
+        const answer = item.type === 'meaning' ? item.word : shortMeaning(item.meaning);
+        return `
+          <tr>
+            <td class="num">${idx + 1}</td>
+            <td class="prompt">${escapeHtml(prompt)}</td>
+            <td class="answer-cell">${answerMode ? escapeHtml(answer) : ''}</td>
+            <td class="code">${escapeHtml(item.code)}</td>
+          </tr>
+        `;
+      }).join('');
+
+      return `
+        <table>
+          <colgroup>
+            <col class="num" />
+            <col class="prompt" />
+            <col class="answer" />
+            <col class="code" />
+          </colgroup>
+          <tbody>${body}</tbody>
+        </table>
+      `;
+    }
+
+    function renderIrregularTable(irregularRows, answerMode) {
+      const rows = irregularRows.slice(0, 5);
+      const body = rows.map((item, idx) => `
+        <tr>
+          <td class="num">${21 + idx}</td>
+          <td>${escapeHtml(item.meaning)}</td>
+          <td>${escapeHtml(item.base)}</td>
+          <td>${answerMode ? escapeHtml(item.past) : ''}</td>
+          <td>${answerMode ? escapeHtml(item.pp) : ''}</td>
+        </tr>
+      `).join('');
+
+      return `
+        <table>
+          <colgroup>
+            <col class="num" />
+            <col class="meaning" />
+            <col class="base" />
+            <col class="past" />
+            <col class="pp" />
+          </colgroup>
+          <tbody>${body}</tbody>
+        </table>
+      `;
+    }
+
+    function renderTicket(meta, questionSet, irregularRows, answerMode) {
+      return `
+        <div class="ticket ${answerMode === null ? 'blank' : ''}">
+          ${answerMode === null ? '<div class="blank-fill"></div>' : `
+            ${renderHeader(meta, answerMode)}
+            ${answerMode ? '<div class="answer-notice"><table><tbody><tr><td>불규칙은 전부 다 써야<br>정답처리해주세요</td></tr></tbody></table></div>' : ''}
+            <div class="main-table">${renderMainTable(questionSet, answerMode)}</div>
+            <div class="section-label">&lt;동사 3단 변화&gt;</div>
+            <div class="irregular-table">${renderIrregularTable(irregularRows, answerMode)}</div>
+          `}
+        </div>
+      `;
+    }
+
+    function buildSlots(copyCount, includeAnswer) {
+      const slots = Array.from({ length: copyCount }, () => 'question');
+      if (includeAnswer) slots.push('answer');
+      if (slots.length % 2 === 1) slots.push('blank');
+      return slots;
+    }
+
+    function chunk(array, size) {
+      const out = [];
+      for (let i = 0; i < array.length; i += size) out.push(array.slice(i, i + size));
+      return out;
+    }
+
+    function getSelectedSchedule(scheduleRows, selectedClass, selectedRound) {
+      return scheduleRows.find(row => row.className === selectedClass && row.roundLabel === selectedRound) || scheduleRows[0] || {
+        className: '', roundLabel: '', testDate: '', dayLabel: '', bookName: ''
+      };
+    }
+
+    function bindToolbarEvents() {
+      const classSelect = document.getElementById('classSelect');
+      const roundSelect = document.getElementById('roundSelect');
+      if (classSelect) {
+        classSelect.addEventListener('change', () => generate({ selectedClass: classSelect.value, selectedRound: null, reshuffle: false }));
+      }
+      if (roundSelect) {
+        roundSelect.addEventListener('change', () => generate({ selectedClass: classSelect.value, selectedRound: roundSelect.value, reshuffle: false }));
+      }
+    }
+
+    let lastSelectedClass = '';
+    let lastSelectedRound = '';
+    let cachedQuestionSet = null;
+
+    function generate(options = {}) {
+      const reshuffle = Boolean(options.reshuffle);
+      const termValue = '2026 Spring';
+      const copyCount = Number(document.getElementById('studentCount').value || 1);
+      const includeAnswer = document.getElementById('includeAnswer').checked;
+      const vocabRows = parseVocabTSV(document.getElementById('vocabData').value);
+      const scheduleRows = parseScheduleTSV(document.getElementById('scheduleData').value);
+      const irregularRows = parseIrregularTSV(document.getElementById('irregularData').value);
+
+      const selectedClass = options.selectedClass || lastSelectedClass || (scheduleRows[0] ? scheduleRows[0].className : '');
+      const classRows = scheduleRows.filter(row => row.className === selectedClass);
+      const selectedRound = options.selectedRound || lastSelectedRound || (classRows[0] ? classRows[0].roundLabel : '');
+      const schedule = getSelectedSchedule(scheduleRows, selectedClass, selectedRound);
+
+      lastSelectedClass = schedule.className;
+      lastSelectedRound = schedule.roundLabel;
+
+      const filteredVocab = getFilteredVocab(vocabRows, schedule);
+      if (!cachedQuestionSet || reshuffle || options.selectedClass || options.selectedRound || options.forceRebuild) {
+        cachedQuestionSet = buildQuestionSet(filteredVocab);
+      }
+
+      const questionSet = cachedQuestionSet;
+      const meta = {
+        term: termValue,
+        className: schedule.className,
+        roundLabel: schedule.roundLabel,
+        testDate: schedule.testDate,
+        dayLabel: schedule.dayLabel
+      };
+
+      const slots = buildSlots(copyCount, includeAnswer);
+      const pagesData = chunk(slots, 2);
+      const pagesHtml = pagesData.map((pair) => {
+        const leftType = pair[0] || 'blank';
+        const rightType = pair[1] || 'blank';
+        return `
+          <section class="print-page">
+            <div class="page-inner">
+              ${renderTicket(meta, questionSet, irregularRows, leftType === 'question' ? false : leftType === 'answer' ? true : null)}
+              ${renderTicket(meta, questionSet, irregularRows, rightType === 'question' ? false : rightType === 'answer' ? true : null)}
+            </div>
+          </section>
+        `;
+      }).join('');
+
+      document.getElementById('previewToolbar').innerHTML = renderPreviewToolbar(scheduleRows, termValue, schedule.className, schedule.roundLabel);
+      document.getElementById('previewMeta').innerHTML = `${escapeHtml(schedule.bookName || '')}<br>${escapeHtml(schedule.testDate || '')} · ${escapeHtml(schedule.dayLabel || '')}`;
+      document.getElementById('pages').innerHTML = pagesHtml;
+      bindToolbarEvents();
+
+      const questionCopies = slots.filter(x => x === 'question').length;
+      const answerCopies = slots.filter(x => x === 'answer').length;
+      const blankSlots = slots.filter(x => x === 'blank').length;
+      document.getElementById('statusBox').innerHTML = `선택된 반/회차 단어 수: <strong>${questionSet.total}</strong>개<br>생성된 문제지: <strong>${questionCopies}</strong>매 / 답지: <strong>${answerCopies}</strong>매 / 빈 칸: <strong>${blankSlots}</strong>칸<br>총 A4 페이지 수: <strong>${pagesData.length}</strong>장<br>인쇄 시 상단 선택 메뉴와 왼쪽 입력 패널은 출력되지 않습니다.`;
+    }
+
+    fillStudentCount();
+    generate({ forceRebuild: true });
+
+    document.getElementById('shuffleBtn').addEventListener('click', () => generate({ reshuffle: true, forceRebuild: true }));
+    document.getElementById('printBtn').addEventListener('click', () => window.print());
+    document.getElementById('studentCount').addEventListener('change', () => generate({ forceRebuild: false }));
+    document.getElementById('includeAnswer').addEventListener('change', () => generate({ forceRebuild: false }));
+    document.getElementById('vocabData').addEventListener('input', () => generate({ forceRebuild: true }));
+    document.getElementById('scheduleData').addEventListener('input', () => {
+      lastSelectedClass = '';
+      lastSelectedRound = '';
+      generate({ forceRebuild: true });
+    });
+    document.getElementById('irregularData').addEventListener('input', () => generate({ forceRebuild: false }));
+  </script>
+</body>
+</html>
